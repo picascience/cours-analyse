@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Analyse 1 — Cours expliqué en détail (poly p. 1 à 35)</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],macros:{'\\R':'\\mathbb{R}','\\N':'\\mathbb{N}','\\Z':'\\mathbb{Z}','\\Q':'\\mathbb{Q}','\\eps':'\\varepsilon'},throwOnError:false});"></script>
+<style>
+  :root{--txt:#1d2330;--mut:#5b6475;--bg:#fbfaf7;--card:#ffffff;--line:#e4e1d8;}
+  *{box-sizing:border-box}
+  body{font-family:Georgia,"Times New Roman",serif;color:var(--txt);background:var(--bg);margin:0;line-height:1.65;font-size:17px}
+  main{max-width:860px;margin:0 auto;padding:32px 22px 120px}
+  h1{font-size:2rem;margin:.2em 0 .1em;line-height:1.2}
+  h2{font-size:1.55rem;margin-top:2.6em;padding-top:.6em;border-top:3px solid #1d2330}
+  h3{font-size:1.2rem;margin-top:2em;color:#1b3a6b}
+  h4{font-size:1.02rem;margin:1.4em 0 .4em}
+  .sub{color:var(--mut);margin-top:0}
+  .box{border-radius:8px;padding:12px 16px;margin:16px 0;background:var(--card);border:1px solid var(--line);border-left:6px solid #999}
+  .box > .t{font-family:system-ui,Segoe UI,sans-serif;font-weight:700;font-size:.82rem;letter-spacing:.04em;text-transform:uppercase;margin-bottom:4px;display:block}
+  .def{border-left-color:#2a64c5}.def>.t{color:#2a64c5}
+  .thm{border-left-color:#1f8a4c}.thm>.t{color:#1f8a4c}
+  .piege{border-left-color:#c62f2f;background:#fff6f5}.piege>.t{color:#c62f2f}
+  .astuce{border-left-color:#c79100;background:#fffbea}.astuce>.t{color:#9a7000}
+  .coeur{border-left-color:#7b3fb3;background:#f8f3fd}.coeur>.t{color:#7b3fb3}
+  .intuit{border-left-color:#0e8f8f;background:#f1fbfb}.intuit>.t{color:#0e7a7a}
+  .demo{border-left-color:#555;background:#fafafa}.demo>.t{color:#444}
+  details{background:#fff;border:1px dashed #b9b4a6;border-radius:8px;padding:8px 14px;margin:12px 0}
+  details summary{cursor:pointer;font-family:system-ui,Segoe UI,sans-serif;font-weight:600;color:#1b3a6b}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:.95rem;background:#fff}
+  th,td{border:1px solid var(--line);padding:6px 9px;text-align:left;vertical-align:top}
+  th{background:#f0eee7}
+  nav.toc{background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px 20px;font-size:.95rem}
+  nav.toc ol{margin:.3em 0;padding-left:1.4em}
+  code{background:#f0eee7;padding:1px 5px;border-radius:4px}
+  .step{font-family:system-ui,Segoe UI,sans-serif;font-weight:700;color:#1b3a6b}
+  .ok{color:#1f8a4c;font-weight:700}.ko{color:#c62f2f;font-weight:700}
+  .small{font-size:.9rem;color:var(--mut)}
+  @media print{details{display:block}details>summary{display:none}body{background:#fff}}
+</style>
+</head>
+<body>
+<main>
+
+<h1>Analyse 1 — le cours expliqué depuis zéro</h1>
+<p class="sub">Poly « Fondements de l'analyse réelle » (MIDO L1), pages 1 à 35 : tout le chapitre 1 (nombres réels) et le début du chapitre 2 (suites : définition, limite, limite infinie).</p>
+
+<div class="box intuit"><span class="t">Avant de commencer — lis ça</span>
+<p>Ce document suit le poly <b>dans l'ordre</b>. Pour chaque notion tu trouveras :</p>
+<ul>
+<li><b>l'idée intuitive</b> (en français, avec des images) ;</li>
+<li><b>la définition exacte</b> (celle qu'on te demande au partiel, mot pour mot) ;</li>
+<li><b>les démonstrations</b>, souvent expliquées <b>deux fois</b> : une fois « l'idée », une fois « la rédaction propre » ;</li>
+<li>des encadrés <span style="color:#c62f2f;font-weight:700">PIÈGE</span> (les erreurs qui coûtent des points), <span style="color:#7b3fb3;font-weight:700">PAR CŒUR</span> (à réciter sans hésiter) et <span style="color:#9a7000;font-weight:700">MÉTHODE</span> ;</li>
+<li>les exercices du poly <b>corrigés</b> (clique sur « Voir la correction » — essaie d'abord !).</li>
+</ul>
+<p>À la fin : une fiche « par cœur », la liste des pièges et le <b>partiel 2023 corrigé et commenté</b> (il porte exactement sur ce programme).</p>
+<p><b>Conseil :</b> ne lis pas tout d'un coup. Fais une section par session, ferme le document et réécris les définitions et la démo de tête. Si tu bloques, relis. C'est comme ça que ça rentre.</p>
+</div>
+
+<nav class="toc"><b>Sommaire</b>
+<ol start="0">
+<li><a href="#logique">Le kit de survie en logique (∀, ∃, négation, absurde…)</a></li>
+<li><a href="#rationnels">ℕ, ℤ, ℚ et l'irrationalité de √2</a></li>
+<li><a href="#decimaux">Réels et développements décimaux (0,999… = 1)</a></li>
+<li><a href="#corps">ℝ, corps totalement ordonné : les règles de calcul</a></li>
+<li><a href="#abs">Valeur absolue et inégalité triangulaire</a></li>
+<li><a href="#archi">Propriété d'Archimède</a></li>
+<li><a href="#emboites">Segments emboîtés et dichotomie</a></li>
+<li><a href="#majorant">Majorant, minorant, partie bornée</a></li>
+<li><a href="#max">Plus grand / plus petit élément (max, min)</a></li>
+<li><a href="#sup">Borne supérieure, borne inférieure</a></li>
+<li><a href="#carac">La caractérisation « avec les ε » (LE théorème clé)</a></li>
+<li><a href="#existence">Le théorème d'existence de la borne sup</a></li>
+<li><a href="#supmax">Sup ou max ? Bien faire la différence</a></li>
+<li><a href="#intervalles">Intervalles</a></li>
+<li><a href="#E">Partie entière</a></li>
+<li><a href="#densite">Adhérence et densité (ℚ et ℝ∖ℚ denses)</a></li>
+<li><a href="#suites">Chapitre 2 — Suites : vocabulaire</a></li>
+<li><a href="#limite">Limite d'une suite (la définition ε–N)</a></li>
+<li><a href="#neg">Suites qui ne convergent pas : (−1)ⁿ</a></li>
+<li><a href="#props">Unicité de la limite, convergente ⇒ bornée, bornée × tend vers 0, signe</a></li>
+<li><a href="#infini">Limite infinie</a></li>
+<li><a href="#fiche">Fiche « PAR CŒUR »</a></li>
+<li><a href="#pieges">Les 25 pièges classiques</a></li>
+<li><a href="#methodes">Méthodes types pour le partiel</a></li>
+<li><a href="#partiel">Partiel 2023 corrigé et commenté</a></li>
+</ol></nav>
+
+<!-- ================================================================== -->
+<h2 id="logique">0. Le kit de survie en logique</h2>
+
+<p>Tout le cours d'Analyse 1 est écrit dans un langage : celui des <b>quantificateurs</b>. Si ce langage n'est pas clair, rien ne sera clair. Donc on commence par là, même si le poly ne le refait pas.</p>
+
+<h3>0.1. ∀ et ∃</h3>
+<ul>
+<li>$\forall$ se lit « <b>pour tout</b> » : $\forall x\in\R,\ x^2\geq 0$ = « pour tout réel $x$, $x^2\geq0$ ».</li>
+<li>$\exists$ se lit « <b>il existe (au moins un)</b> » : $\exists n\in\N,\ n>100$ = « il existe un entier plus grand que 100 ».</li>
+</ul>
+
+<div class="piege"><span class="t">Piège n°1 : l'ordre des quantificateurs change tout</span>
+<p>« $\forall$ personne, $\exists$ une mère » = chaque personne a une mère (vrai).<br>
+« $\exists$ une mère, $\forall$ personne » = il y a une même femme qui est la mère de tout le monde (faux).</p>
+<p>En maths : $\forall x\in\R,\ \exists y\in\R,\ y>x$ (vrai : prendre $y=x+1$) mais $\exists y\in\R,\ \forall x\in\R,\ y>x$ (faux : il n'y a pas de réel plus grand que tous les réels).</p>
+<p><b>Règle :</b> quand un $\exists$ vient <b>après</b> un $\forall$, l'objet qui existe a le droit de <b>dépendre</b> de ce qui a été choisi avant. Dans la définition de la limite « $\forall\eps>0,\ \exists N$ », le $N$ dépend de $\eps$. C'est fondamental.</p>
+</div>
+
+<h3>0.2. Nier une phrase (la négation)</h3>
+<p>Pour nier une phrase avec quantificateurs, on applique mécaniquement :</p>
+<ul>
+<li>chaque $\forall$ devient $\exists$, chaque $\exists$ devient $\forall$ (on garde l'ordre) ;</li>
+<li>la propriété à la fin est niée : $\leq$ devient $>$, $\lt$ devient $\geq$, « et » devient « ou », etc.</li>
+</ul>
+<p><b>Exemple :</b> « $A$ est majorée » s'écrit $\exists M\in\R,\ \forall x\in A,\ x\leq M$.<br>
+Sa négation « $A$ n'est pas majorée » : $\forall M\in\R,\ \exists x\in A,\ x>M$. (« Quel que soit le plafond que tu proposes, je trouve un élément de $A$ au-dessus. »)</p>
+
+<div class="piege"><span class="t">Piège : nier une implication</span>
+<p>La négation de « $P\Rightarrow Q$ » n'est <b>pas</b> « $P\Rightarrow \text{non }Q$ ». C'est « <b>$P$ et non $Q$</b> ».<br>
+Exemple : la négation de « s'il pleut, je prends un parapluie » est « il pleut <b>et</b> je ne prends pas de parapluie ».</p>
+</div>
+
+<h3>0.3. Comment on démontre / comment on utilise</h3>
+<table>
+<tr><th>Ce que tu dois…</th><th>Ce que tu écris</th></tr>
+<tr><td><b>Démontrer</b> « $\forall x\in E,\ P(x)$ »</td><td>« <b>Soit $x\in E$.</b> » puis tu montres $P(x)$ pour ce $x$ quelconque (tu n'as pas le droit de le choisir).</td></tr>
+<tr><td><b>Démontrer</b> « $\exists x\in E,\ P(x)$ »</td><td>Tu <b>donnes</b> un $x$ explicite (« Posons $x=\dots$ ») et tu vérifies $P(x)$. Trouver le $x$ se fait souvent au brouillon.</td></tr>
+<tr><td><b>Utiliser</b> une hypothèse « $\forall x\in E,\ P(x)$ »</td><td>Tu l'appliques <b>au $x$ qui t'arrange</b> (c'est toi qui choisis !). Ex : appliquer la définition de la limite avec $\eps/7$ au lieu de $\eps$.</td></tr>
+<tr><td><b>Utiliser</b> une hypothèse « $\exists x\in E,\ P(x)$ »</td><td>« Il existe un tel $x$ ; <b>fixons-le</b>. » Tu ne le choisis pas, tu le récupères.</td></tr>
+</table>
+
+<h3>0.4. Trois types de raisonnement</h3>
+<ul>
+<li><b>Par l'absurde :</b> pour montrer $P$, on suppose « non $P$ » et on arrive à une contradiction (quelque chose de faux, comme $1\lt 2/3$).</li>
+<li><b>Par contraposée :</b> « $P\Rightarrow Q$ » est équivalent à « non $Q\Rightarrow$ non $P$ ». Parfois la seconde est plus facile à montrer. (Ex : « si $p^2$ est pair alors $p$ est pair » ⟺ « si $p$ est impair alors $p^2$ est impair ».)</li>
+<li><b>Par récurrence :</b> on montre $P(0)$ (initialisation), puis « $P(n)\Rightarrow P(n+1)$ » pour tout $n$ (hérédité). Alors $P(n)$ est vraie pour tout $n$.</li>
+</ul>
+
+<!-- ================================================================== -->
+<h2 id="rationnels">1. ℕ, ℤ, ℚ et l'irrationalité de √2 <span class="small">(poly p. 5–6)</span></h2>
+
+<p>On connaît :</p>
+<ul>
+<li>$\N=\{0,1,2,3,\dots\}$ : les entiers naturels ;</li>
+<li>$\Z=\{\dots,-2,-1,0,1,2,\dots\}$ : les entiers relatifs ;</li>
+<li>$\Q=\left\{\dfrac pq,\ p\in\Z,\ q\in\N^\star\right\}$ : les rationnels (les fractions). $\N^\star$ veut dire $\N$ privé de $0$.</li>
+</ul>
+<p>On a $\N\subset\Z\subset\Q\subset\R$. Le problème historique : la diagonale d'un carré de côté 1 mesure un nombre dont le carré vaut $1^2+1^2=2$ (Pythagore). Et ce nombre <b>n'est pas une fraction</b>. Donc $\Q$ ne suffit pas pour mesurer les longueurs : il faut $\R$.</p>
+
+<div class="thm"><span class="t">Théorème 1.1 — Irrationalité de √2</span>
+Il n'existe pas de rationnel dont le carré soit égal à 2.
+</div>
+
+<h4>L'idée (explication n°1)</h4>
+<p>Si $\sqrt2$ était une fraction $p/q$ écrite <b>en simplifiant au maximum</b> (forme irréductible), on montrerait que $p$ et $q$ sont tous les deux pairs… donc qu'on pouvait encore simplifier par 2. Contradiction avec « simplifiée au maximum ».</p>
+
+<h4>La démonstration rédigée (explication n°2)</h4>
+<div class="box demo"><span class="t">Démonstration (par l'absurde)</span>
+<p>Supposons qu'il existe $\alpha\in\Q$ tel que $\alpha^2=2$. On écrit $\alpha$ sous forme irréductible : $\alpha=\dfrac pq$ avec $p\in\Z$, $q\in\N^\star$ et $\mathrm{PGCD}(p,q)=1$.</p>
+<p><span class="step">Étape 1.</span> $\alpha^2=2$ donne $\dfrac{p^2}{q^2}=2$, donc $p^2=2q^2$.</p>
+<p><span class="step">Étape 2.</span> Donc $p^2$ est pair. Or si $p^2$ est pair, alors $p$ est pair (voir ci-dessous pourquoi). On écrit $p=2k$ avec $k\in\Z$.</p>
+<p><span class="step">Étape 3.</span> On remplace : $2q^2=p^2=(2k)^2=4k^2$, donc $q^2=2k^2$. Donc $q^2$ est pair, donc $q$ est pair.</p>
+<p><span class="step">Étape 4.</span> $p$ et $q$ sont tous deux divisibles par 2, donc $\mathrm{PGCD}(p,q)\geq2$. Contradiction avec $\mathrm{PGCD}(p,q)=1$. ∎</p>
+</div>
+
+<div class="box astuce"><span class="t">Le « truc évident » qu'il faut savoir justifier : p² pair ⇒ p pair</span>
+<p>Par <b>contraposée</b> : montrons « $p$ impair $\Rightarrow p^2$ impair ». Si $p$ est impair, $p=2m+1$, alors $p^2=4m^2+4m+1=2(2m^2+2m)+1$, qui est impair. ∎</p>
+</div>
+
+<details><summary>Exercice 1.1 du poly — voir la correction</summary>
+<p><b>1. Pas de rationnel de carré 3.</b> Même démarche : $p^2=3q^2$ avec $\mathrm{PGCD}(p,q)=1$. Alors 3 divise $p^2$, donc 3 divise $p$ (si $p$ n'est pas multiple de 3, $p=3m+1$ ou $3m+2$, et $p^2=9m^2+6m+1$ ou $9m^2+12m+4=3(3m^2+4m+1)+1$ : pas multiple de 3). Donc $p=3k$, $9k^2=3q^2$, $q^2=3k^2$, donc 3 divise $q$. Contradiction.</p>
+<p><b>2. Pas de rationnel $\rho$ avec $2^\rho=3$.</b> Supposons $\rho=p/q$ ($q\geq1$). Comme $2^\rho=3>1$, on a $\rho>0$, donc $p\geq1$. En élevant à la puissance $q$ : $2^p=3^q$. À gauche un nombre pair ($p\geq1$), à droite un nombre impair. Contradiction.</p>
+</details>
+
+<!-- ================================================================== -->
+<h2 id="decimaux">2. Réels et développements décimaux <span class="small">(p. 6–7)</span></h2>
+
+<p>Idée du poly : un réel, c'est « un nombre avec une infinité de chiffres après la virgule ». Un <b>développement décimal</b> = un signe, une partie entière, et une suite infinie de chiffres $c_1,c_2,c_3,\dots$ entre 0 et 9.</p>
+<p>Exemple : $\frac13=+0{,}3333\ldots$</p>
+
+<h3>Le fait surprenant : 0,999… = 1</h3>
+<div class="box demo"><span class="t">Démonstration</span>
+Posons $x=0{,}9999\ldots$ Alors $10x=9{,}9999\ldots=9+x$. Donc $9x=9$, d'où $x=1$. ∎
+</div>
+<p>Donc certains nombres ont <b>deux écritures</b> : $1=1{,}000\ldots=0{,}999\ldots$, $17{,}25=17{,}24999\ldots$ Ce sont exactement les <b>nombres décimaux</b> (ceux qui s'écrivent avec un nombre fini de chiffres après la virgule, c'est-à-dire $x=\dfrac{k}{10^N}$ avec $k\in\Z$, $N\in\N$).</p>
+<p>Pour avoir une seule écriture par réel, on interdit les écritures qui finissent par des 9 à l'infini : c'est le <b>développement décimal propre</b>.</p>
+
+<div class="box def"><span class="t">Définition 1.3 — développement décimal propre</span>
+Un signe, un entier naturel, et une suite de chiffres $(c_n)$ qui ne finit pas par une suite ininterrompue de 9 :
+$$\forall N\in\N,\ \exists n\in\N,\ (n\geq N \text{ et } c_n\neq9).$$
+(« Aussi loin que tu ailles, il y a encore un chiffre qui n'est pas 9 ».)
+</div>
+<p>Remarque : c'est exactement la <b>négation</b> de « à partir d'un certain rang, tous les chiffres valent 9 » : $\exists N,\ \forall n\geq N,\ c_n=9$. Bel exemple d'application du §0.2.</p>
+
+<div class="piege"><span class="t">Piège</span>
+Décimal ⇒ rationnel (car $k/10^N$ est une fraction). Mais rationnel ⇏ décimal : $\frac13=0{,}333\ldots$ est rationnel mais pas décimal.
+</div>
+
+<p><b>Pourquoi on ne s'en sert pas plus ?</b> Additionner/multiplier deux nombres avec une infinité de chiffres est un cauchemar (il n'y a pas de « dernier chiffre » pour commencer les retenues). Donc on <b>admet</b> qu'on peut définir $+$ et $\times$ sur $\R$ avec les bonnes propriétés. C'est la section suivante. <b>À retenir pour l'examen : ce §2 est surtout culturel.</b></p>
+
+<!-- ================================================================== -->
+<h2 id="corps">3. ℝ est un corps totalement ordonné <span class="small">(p. 8–9)</span></h2>
+
+<p>Ça veut juste dire : « dans $\R$, on calcule et on compare comme d'habitude ». Les propriétés I.1 à I.9 (associativité, commutativité, 0, opposé, 1, inverse si $x\neq0$, distributivité) = « $\R$ est un <b>corps</b> ». Les propriétés II.1 à II.6 de $\leq$ (réflexive, transitive, antisymétrique, totale, compatible avec $+$ et avec $\times$ par des positifs) = « <b>totalement ordonné</b> ».</p>
+<p>Tu n'as pas à les réciter par numéro, mais il faut connaître leurs conséquences pratiques :</p>
+
+<div class="box thm"><span class="t">II.A — multiplier une inégalité</span>
+<p>Si $a>0$ et $b\lt c$, alors $ab\lt ac$.<br>Si $a\lt 0$ et $b\lt c$, alors $ab>ac$ (<b>le sens change</b>).</p>
+</div>
+<div class="box thm"><span class="t">II.B — le milieu est entre les deux</span>
+<p>Si $a\lt b$, alors $a\lt \dfrac{a+b}2\lt b$.</p>
+<p><i>Preuve :</i> $a\lt b$ ⇒ (on ajoute $a$) $2a\lt a+b$ ⇒ $a\lt\frac{a+b}2$. De même (on ajoute $b$) $a+b\lt 2b$ ⇒ $\frac{a+b}2\lt b$.</p>
+<p><b>Ce « milieu » sert ÉNORMÉMENT</b> dans le cours : pour montrer qu'un ensemble n'a pas de max, qu'un nombre n'est pas un majorant, etc.</p>
+</div>
+
+<div class="piege"><span class="t">Pièges de calcul sur les inégalités</span>
+<ul>
+<li>On peut <b>additionner</b> deux inégalités de même sens : $a\leq b$ et $c\leq d$ ⇒ $a+c\leq b+d$.</li>
+<li>On <b>ne peut pas soustraire</b> membre à membre : $1\leq 5$ et $0\leq 10$ donneraient $1-0\leq 5-10$, soit $1\leq-5$ : faux ! Pour soustraire, on passe à l'opposé (ce qui retourne le sens) : $c\leq d$ ⇒ $-d\leq -c$, puis on additionne.</li>
+<li>On ne peut <b>multiplier</b> deux inégalités que si tout est <b>positif</b> : $0\leq a\leq b$ et $0\leq c\leq d$ ⇒ $ac\leq bd$.</li>
+<li>Passer à l'inverse <b>change le sens</b> (si tout est $>0$) : $0\lt a\leq b$ ⇒ $\frac1b\leq\frac1a$.</li>
+</ul>
+</div>
+
+<!-- ================================================================== -->
+<h2 id="abs">4. Valeur absolue et inégalité triangulaire <span class="small">(p. 9–10)</span></h2>
+
+<div class="box def"><span class="t">Définition</span>
+$$|x|=\begin{cases}x & \text{si } x\geq0\\ -x & \text{si } x\lt 0\end{cases}$$
+</div>
+<p><b>L'image à avoir en tête :</b> $|x-y|$ est la <b>distance</b> entre $x$ et $y$ sur la droite réelle. $|x|$ est la distance entre $x$ et 0.</p>
+
+<div class="box coeur"><span class="t">PAR CŒUR — les deux traductions qu'on utilise sans arrêt</span>
+<p>Pour $\eps>0$ :
+$$|x-a|\lt\eps\iff a-\eps\lt x\lt a+\eps\iff x\in\,]a-\eps,a+\eps[$$
+(« $x$ est à distance moins de $\eps$ de $a$ »)</p>
+<p>Pour $M\geq0$ :
+$$|x|\leq M\iff -M\leq x\leq M\iff x\in[-M,M]$$</p>
+</div>
+
+<div class="box thm"><span class="t">Proposition 1.4 — Inégalités triangulaires</span>
+<ol type="i">
+<li>$|x+y|\leq|x|+|y|$</li>
+<li>$|x-y|\leq|x|+|y|$</li>
+<li>$|x-z|\leq|x-y|+|y-z|$ (version « distance » : passer par $y$ ne raccourcit pas le chemin)</li>
+<li>$\big||x|-|y|\big|\leq|x-y|$ (inégalité triangulaire « inversée »)</li>
+</ol>
+</div>
+
+<details open><summary>Démonstrations (pas dans le poly, mais il faut savoir les faire)</summary>
+<p><b>(i)</b> On sait que $-|x|\leq x\leq|x|$ et $-|y|\leq y\leq|y|$. On additionne : $-(|x|+|y|)\leq x+y\leq|x|+|y|$. D'après la traduction « $|X|\leq M\iff -M\leq X\leq M$ » avec $X=x+y$ et $M=|x|+|y|$ : $|x+y|\leq|x|+|y|$.</p>
+<p><b>(ii)</b> On applique (i) à $x$ et $-y$ : $|x+(-y)|\leq|x|+|-y|=|x|+|y|$.</p>
+<p><b>(iii)</b> On écrit $x-z=(x-y)+(y-z)$ et on applique (i).</p>
+<p><b>(iv)</b> $|x|=|(x-y)+y|\leq|x-y|+|y|$, donc $|x|-|y|\leq|x-y|$. En échangeant $x$ et $y$ : $|y|-|x|\leq|y-x|=|x-y|$. Les deux ensemble disent $-|x-y|\leq|x|-|y|\leq|x-y|$, c'est-à-dire $\big||x|-|y|\big|\leq|x-y|$.</p>
+</details>
+
+<div class="piege"><span class="t">Piège</span>
+<p>$|x-y|\leq|x|-|y|$ est <b>FAUX</b> en général ($x=0,y=1$ : $1\leq-1$ ?). Et $|x+y|=|x|+|y|$ est faux en général ($x=1,y=-1$). Par contre $|xy|=|x||y|$ et $\left|\frac xy\right|=\frac{|x|}{|y|}$ sont toujours vrais.</p>
+</div>
+
+<!-- ================================================================== -->
+<h2 id="archi">5. La propriété d'Archimède <span class="small">(p. 10–11)</span></h2>
+
+<div class="box thm"><span class="t">Théorème 1.5 — Propriété d'Archimède</span>
+Si $a>0$ et $b>0$, il existe $n\in\N^\star$ tel que $na>b$.
+</div>
+<p><b>En français :</b> même avec des petits pas (de longueur $a$), en faisant assez de pas, on dépasse n'importe quelle distance $b$.</p>
+
+<div class="box coeur"><span class="t">PAR CŒUR — les deux cas particuliers (ceux qu'on utilise vraiment)</span>
+<ul>
+<li>Pour tout $A>0$, il existe $n\in\N^\star$ tel que $n>A$. <i>(les entiers ne sont pas majorés)</i></li>
+<li>Pour tout $\eps>0$, il existe $n\in\N^\star$ tel que $\dfrac1n\lt\eps$. <i>(1/n devient aussi petit qu'on veut)</i></li>
+</ul>
+<p>Le 2ᵉ cas s'obtient avec $a=\eps$, $b=1$ : $n\eps>1$ donc $\frac1n\lt\eps$.</p>
+</div>
+
+<p><b>Démonstration (poly) :</b> on veut $n>\frac ba$. Si $\frac ba=\alpha,c_0c_1c_2\ldots$ (écriture décimale, $\alpha$ = partie avant la virgule), alors $n=\alpha+1$ convient. Autrement dit : <b>l'entier juste au-dessus</b> de $b/a$. (Avec la partie entière du §14 : $n=E(b/a)+1$.)</p>
+
+<div class="box astuce"><span class="t">Quand l'utiliser ?</span>
+Chaque fois que tu dois trouver un entier $n$ « assez grand ». En pratique, au lieu de dire « par Archimède », on donne souvent un $n$ explicite avec la partie entière : « $n=E(1/\eps)+1$ convient ». Les deux sont acceptés.
+</div>
+
+<!-- ================================================================== -->
+<h2 id="emboites">6. Segments emboîtés et dichotomie <span class="small">(p. 11–12)</span></h2>
+
+<div class="box def"><span class="t">Vocabulaire</span>
+<ul>
+<li><b>Segment</b> : $[a,b]=\{x\in\R,\ a\leq x\leq b\}$ avec $a\leq b$ (intervalle fermé borné).</li>
+<li><b>Suite de segments emboîtés</b> : des segments $[a_n,b_n]$ tels que $[a_{n+1},b_{n+1}]\subset[a_n,b_n]$ pour tout $n$ (comme des poupées russes).</li>
+</ul>
+</div>
+
+<div class="box thm"><span class="t">Théorème 1.6 — Segments emboîtés (admis)</span>
+Si $([a_n,b_n])_{n\in\N}$ est une suite de segments emboîtés, alors $\displaystyle\bigcap_{n\in\N}[a_n,b_n]\neq\emptyset$ : il existe un réel $x$ qui est dans <b>tous</b> les segments.
+</div>
+
+<p><b>Pourquoi c'est important :</b> c'est ce qui dit que $\R$ « n'a pas de trou ». Dans $\Q$, c'est faux : les segments de rationnels qui se resserrent autour de $\sqrt2$ n'ont aucun point rationnel commun.</p>
+
+<div class="piege"><span class="t">Piège</span>
+<b>Segments</b> (fermés) obligatoires ! Avec des intervalles ouverts, c'est faux : $]0,\frac1n[$ sont emboîtés mais leur intersection est vide (aucun réel $x>0$ n'est $\lt\frac1n$ pour tout $n$, par Archimède).
+</div>
+
+<h3>Exemple : construire √2 par dichotomie (« couper en deux »)</h3>
+<p>Idée : on sait que $\sqrt2\in[1,2]$ car $1^2\lt2\lt2^2$. On coupe l'intervalle en deux et on regarde dans quelle moitié il est, puis on recommence.</p>
+<table>
+<tr><th>$n$</th><th>$[a_n,b_n]$</th><th>milieu $\mu_n$</th><th>$\mu_n^2$</th><th>décision</th></tr>
+<tr><td>0</td><td>$[1,\ 2]$</td><td>1,5</td><td>2,25 > 2</td><td>on garde la moitié gauche</td></tr>
+<tr><td>1</td><td>$[1,\ 1{,}5]$</td><td>1,25</td><td>1,5625 &lt; 2</td><td>moitié droite</td></tr>
+<tr><td>2</td><td>$[1{,}25,\ 1{,}5]$</td><td>1,375</td><td>1,890… &lt; 2</td><td>moitié droite</td></tr>
+<tr><td>3</td><td>$[1{,}375,\ 1{,}5]$</td><td>1,4375</td><td>2,066… > 2</td><td>moitié gauche</td></tr>
+<tr><td>4</td><td>$[1{,}375,\ 1{,}4375]$</td><td>…</td><td>…</td><td>…</td></tr>
+</table>
+<p>À chaque étape : $a_n^2\lt2\lt b_n^2$ et la longueur est divisée par 2 : $b_n-a_n=\frac1{2^n}$.</p>
+<ul>
+<li><b>Existence :</b> par les segments emboîtés, il y a un $x$ dans tous les $[a_n,b_n]$.</li>
+<li><b>Unicité :</b> s'il y en avait deux, $x\lt y$, on aurait $y-x\leq b_n-a_n=\frac1{2^n}\leq\frac1n$ pour tout $n$, ce qui contredit Archimède (il existe $n$ avec $\frac1n\lt y-x$).</li>
+<li><b>$x^2=2$ :</b> si $x^2>2$, on aurait $0\lt x^2-2\leq b_n^2-a_n^2\leq\frac4{2^n}\leq\frac4n$ pour tout $n$ : impossible par Archimède. De même $x^2\lt2$ impossible.</li>
+</ul>
+<div class="box astuce"><span class="t">À retenir de cet exemple</span>
+<p>Le schéma « <b>un nombre positif $d$ qui vérifie $d\leq\frac Cn$ pour tout $n\geq1$ est forcément nul</b> » (sinon Archimède le contredit). C'est un argument qui revient tout le temps. Le poly dit que cet exemple « peut être sauté en première lecture » : ne pas apprendre la démo par cœur, mais comprendre l'idée de dichotomie, car elle sert à la démonstration du théorème de la borne sup.</p>
+</div>
+
+<!-- ================================================================== -->
+<h2 id="majorant">7. Majorant, minorant, partie bornée <span class="small">(p. 12–15)</span></h2>
+
+<p>D'abord, une « partie de $\R$ » = un sous-ensemble de $\R$. Ça peut être un intervalle, mais aussi des trucs bizarres comme $\Q\cap]0,1[$ (plein de trous) ou $\{1/n,\ n\in\N^\star\}$.</p>
+
+<div class="box def"><span class="t">Définitions 1.7 et 1.8 — PAR CŒUR</span>
+<p>Soit $A\subset\R$.</p>
+<ul>
+<li>$M$ est un <b>majorant</b> de $A$ si : $\forall x\in A,\ x\leq M$. (« $M$ est au-dessus de tout le monde dans $A$ »)</li>
+<li>$m$ est un <b>minorant</b> de $A$ si : $\forall x\in A,\ x\geq m$.</li>
+<li>$A$ est <b>majorée</b> si elle a au moins un majorant : $\exists M\in\R,\ \forall x\in A,\ x\leq M$.</li>
+<li>$A$ est <b>minorée</b> si : $\exists m\in\R,\ \forall x\in A,\ x\geq m$.</li>
+<li>$A$ est <b>bornée</b> si elle est majorée <b>et</b> minorée.</li>
+</ul>
+</div>
+
+<div class="piege"><span class="t">Pièges</span>
+<ul>
+<li>Un majorant <b>n'est pas forcément dans $A$</b>. Ex : 1 majore $]0,1[$ mais $1\notin\,]0,1[$.</li>
+<li>Si $M$ est un majorant, tout nombre $\geq M$ est aussi un majorant : il y en a une infinité. Dire « <b>le</b> majorant » n'a <b>aucun sens</b> (Remarque 1.13).</li>
+<li>« $\exists M,\ \forall x$ » : le $M$ est le même pour tous les $x$. « $\forall x,\ \exists M,\ x\leq M$ » est toujours vrai (prendre $M=x$) et ne veut rien dire !</li>
+</ul>
+</div>
+
+<h3>Exemple 1.11 — montrer qu'un ensemble N'EST PAS majoré</h3>
+<p>$B=\{\sqrt x+3,\ x\in\R_+\}$. On doit montrer la négation de « majorée » : $\forall M\in\R,\ \exists x\in\R_+,\ \sqrt x+3>M$.</p>
+<div class="box demo"><span class="t">Rédaction</span>
+<p>Soit $M\in\R$. On cherche $x\geq0$ avec $\sqrt x>M-3$.</p>
+<ul>
+<li>Si $M-3\lt 0$ : $x=0$ convient, car $\sqrt0=0>M-3$.</li>
+<li>Si $M-3\geq0$ : $x=(M-3)^2+1$ convient, car $\sqrt x>\sqrt{(M-3)^2}=M-3$ (racine strictement croissante).</li>
+</ul>
+<p>Dans tous les cas on a trouvé $x\in\R_+$ avec $\sqrt x+3>M$. Donc $B$ n'est pas majoré.</p>
+</div>
+<p class="small">(Le poly le fait avec un entier $n$ et Archimède ; ma version donne directement le $x$. Les deux sont justes.)</p>
+
+<h3>Proposition 1.14 — Borné ⟺ valeur absolue majorée</h3>
+<div class="box thm"><span class="t">Proposition 1.14</span>
+Pour $A$ non vide : $A$ est bornée $\iff$ il existe $M\geq0$ tel que $\forall x\in A,\ |x|\leq M$.
+</div>
+<p><b>Idée :</b> borné = coincé entre $s$ et $S$. On peut toujours agrandir la « cage » pour qu'elle soit <b>symétrique</b> autour de 0 : $[-M,M]$.</p>
+<div class="box demo"><span class="t">Démonstration</span>
+<p><b>(⇐)</b> Si $|x|\leq M$ pour tout $x\in A$, alors $-M\leq x\leq M$ : $M$ est un majorant, $-M$ un minorant. $A$ est bornée.</p>
+<p><b>(⇒)</b> Si $A$ est bornée, il existe $s,S$ avec $s\leq x\leq S$ pour tout $x\in A$. On pose $M=\max(|s|,|S|)$. Alors $x\leq S\leq|S|\leq M$ et $x\geq s\geq-|s|\geq-M$. Donc $-M\leq x\leq M$, c'est-à-dire $|x|\leq M$.</p>
+<p><i>Exemple pour comprendre le choix :</i> si $A\subset[-10,3]$, alors $M=\max(10,3)=10$ et $A\subset[-10,10]$.</p>
+</div>
+
+<div class="box astuce"><span class="t">MÉTHODE — montrer qu'un ensemble est borné</span>
+<p>On « majore brutalement la valeur absolue » avec l'inégalité triangulaire et $|\cos|\leq1$, $|\sin|\leq1$, $|(-1)^n|=1$, etc.</p>
+<p><b>Exemple 1.15 :</b> $A=\{(\cos x+3)^5,\ x\in\R\}$. Pour tout $x$ : $|(\cos x+3)^5|=|\cos x+3|^5\leq(|\cos x|+3)^5\leq(1+3)^5=1024$. Donc $A$ est bornée.</p>
+</div>
+
+<details><summary>Exercice 1.3 — voir la correction</summary>
+<p><b>$A=\left\{\sin(\sqrt{n^4+3})+\frac{(-1)^n}{n^2},\ n\in\N^\star\right\}$.</b> Pour $n\geq1$ : $\left|\sin(\sqrt{n^4+3})+\frac{(-1)^n}{n^2}\right|\leq|\sin(\ldots)|+\frac{1}{n^2}\leq1+1=2$. Bornée.</p>
+<p><b>$B=\left\{\frac{x+2}{x^2+1},\ x\in\R\right\}$.</b> $\left|\frac{x+2}{x^2+1}\right|\leq\frac{|x|}{x^2+1}+\frac{2}{x^2+1}$. Or $(|x|-1)^2\geq0$ donne $x^2+1\geq2|x|$, donc $\frac{|x|}{x^2+1}\leq\frac12$. Et $x^2+1\geq1$ donne $\frac2{x^2+1}\leq2$. Total : $\leq\frac52$. Bornée.</p>
+</details>
+
+<!-- ================================================================== -->
+<h2 id="max">8. Plus grand élément, plus petit élément <span class="small">(p. 15–18)</span></h2>
+
+<div class="box def"><span class="t">Définition 1.16 — PAR CŒUR</span>
+<p>$M$ est un <b>plus grand élément</b> de $A$ si :</p>
+<ol type="i"><li>$M\in A$ ;</li><li>$\forall y\in A,\ y\leq M$ ($M$ est un majorant).</li></ol>
+<p>Autrement dit : un plus grand élément = <b>un majorant qui appartient à $A$</b>. Même chose pour le plus petit élément (un minorant qui appartient à $A$).</p>
+</div>
+
+<h3>Exemple 1.19 — [0,1[ n'a pas de plus grand élément</h3>
+<p><b>Intuition :</b> 1 serait le candidat, mais $1\notin[0,1[$. Et n'importe quel $M\lt1$ peut être dépassé : entre $M$ et 1, il y a encore de la place.</p>
+<div class="box demo"><span class="t">Démonstration (par l'absurde)</span>
+<p>Supposons que $M$ soit un plus grand élément de $[0,1[$. Alors $0\leq M\lt1$. Posons $x=\frac{M+1}2$ (le milieu entre $M$ et 1 — c'est II.B !). Alors $M\lt x\lt1$ et $x\geq0$, donc $x\in[0,1[$ et $x>M$. Ça contredit « $M$ majore $[0,1[$ ». ∎</p>
+</div>
+
+<h3>Exemple 1.20 — étude complète de $A=\{2-\frac1n,\ n\in\N^\star\}$</h3>
+<p>Écrivons les premiers termes : $n=1$ : $1$ ; $n=2$ : $1{,}5$ ; $n=3$ : $1{,}666\ldots$ ; $n=10$ : $1{,}9$ ; … ça monte vers 2 sans jamais l'atteindre.</p>
+<div class="box demo"><span class="t">Plus petit élément : 1</span>
+<p>(i) $1\in A$ : c'est $2-\frac11$.<br>
+(ii) 1 est un minorant : soit $x\in A$, $x=2-\frac1n$ avec $n\geq1$. Alors $\frac1n\leq1$, donc $x=2-\frac1n\geq2-1=1$.<br>
+Donc $\min A=1$.</p>
+</div>
+<div class="box demo"><span class="t">Pas de plus grand élément</span>
+<p>Par l'absurde, soit $M$ un plus grand élément. (i) $M\in A$ donc $M=2-\frac1{n_0}$ pour un certain $n_0\geq1$. Mais alors $x=2-\frac1{n_0+1}\in A$ et $x>M$ (car $\frac1{n_0+1}\lt\frac1{n_0}$). Ça contredit (ii). ∎</p>
+<p class="small">(Le poly prend $n_0+999$ pour montrer que n'importe quel entier plus grand marche ; $n_0+1$ suffit.)</p>
+</div>
+
+<h3>Unicité du max (Proposition 1.21)</h3>
+<div class="box demo"><span class="t">Démonstration — à savoir refaire (classique et courte)</span>
+<p>Soient $M_1,M_2$ deux plus grands éléments de $A$.</p>
+<ul>
+<li>$M_1\in A$ et $M_2$ est un majorant de $A$ ⇒ $M_1\leq M_2$.</li>
+<li>$M_2\in A$ et $M_1$ est un majorant de $A$ ⇒ $M_2\leq M_1$.</li>
+</ul>
+<p>Donc $M_1=M_2$. ∎ <b>Notation :</b> on note ce nombre $\max(A)$ (et $\min(A)$ pour le plus petit).</p>
+</div>
+
+<div class="piege"><span class="t">PIÈGE GRAVE (le poly insiste)</span>
+On n'a <b>pas le droit d'écrire $\max(A)$</b> tant qu'on n'a pas montré que $A$ a un plus grand élément. Beaucoup d'ensembles n'en ont pas ($[0,1[$, $\{2-\frac1n\}$…).
+</div>
+
+<h3>Cas où le max/min existe toujours <span class="small">(p. 17–18)</span></h3>
+<div class="box thm"><span class="t">Propositions 1.22, 1.23, 1.24</span>
+<ul>
+<li>Toute partie <b>non vide</b> de $\N$ a un plus petit élément.</li>
+<li>Toute partie <b>non vide et majorée</b> de $\N$ (ou de $\Z$) a un plus grand élément.</li>
+<li>Toute partie <b>non vide et minorée</b> de $\Z$ a un plus petit élément.</li>
+<li>Toute partie <b>non vide et finie</b> de $\R$ a un plus grand et un plus petit élément.</li>
+</ul>
+</div>
+<p><b>Ce qu'il faut savoir :</b> les énoncés (ils servent pour la partie entière). Les démonstrations du poly pour $\N$ sont marquées « peuvent être omises en première lecture ». L'idée pour les parties finies : récurrence sur le nombre d'éléments ; on enlève un élément $\alpha$, le reste $B$ a un max $M$ par hypothèse de récurrence, et alors $\max A=\max(M,\alpha)$.</p>
+
+<details><summary>Exercice 1.4 — voir la correction</summary>
+<p><b>1.</b> $[a,b]$ : $b\in[a,b]$ et majore → $\max=b$ ; $a$ → $\min=a$. $]a,b]$ : $\max=b$. Pas de min : si $m\in]a,b]$ était le min, $\frac{a+m}2\in]a,b]$ et $\frac{a+m}2\lt m$. Contradiction.</p>
+<p><b>2.</b> $A=\{\frac1{n^3}\}$ : valeurs $1,\frac18,\frac1{27},\ldots$ $\max=1$ (atteint en $n=1$, et $\frac1{n^3}\leq1$). Pas de min : si $\frac1{n_0^3}$ était le min, $\frac1{(n_0+1)^3}$ est plus petit et dans $A$.</p>
+<p><b>3.</b> $B=\{\frac{|n|-1}n,\ n\in\Z^\star\}$. Pour $n>0$ : $1-\frac1n\in[0,1[$. Pour $n=-k\lt0$ : $\frac{k-1}{-k}=-1+\frac1k\in]-1,0]$. Donc $B\subset]-1,1[$, sup 1, inf −1, jamais atteints, et comme dans l'ex. 1.20 on dépasse toujours : pas de max ($1-\frac1{n+1}>1-\frac1n$), pas de min ($-1+\frac1{k+1}\lt-1+\frac1k$).</p>
+<p><b>4.</b> $C=\{\frac{(-1)^n}n\}$ : $-1,\frac12,-\frac13,\frac14,\ldots$ Conjecture : $\max=\frac12$, $\min=-1$. Preuve : $n$ pair ($\geq2$) : $\frac1n\leq\frac12$ ; $n$ impair : $-\frac1n\lt0\lt\frac12$. Et $\frac12\in C$. De même $n$ impair : $-\frac1n\geq-1$ ; $n$ pair : $>0>-1$ ; et $-1\in C$.</p>
+</details>
+
+<!-- ================================================================== -->
+<h2 id="sup">9. Borne supérieure, borne inférieure <span class="small">(p. 18–20)</span></h2>
+
+<div class="box intuit"><span class="t">L'idée</span>
+<p>Un ensemble majoré a plein de majorants. La <b>borne supérieure</b>, c'est <b>le plus petit d'entre eux</b> : le « bord droit » de l'ensemble, le « plafond le plus bas possible ».</p>
+<p>Pour $[0,1[$ : les majorants sont $[1,+\infty[$. Le plus petit est 1. Donc $\sup[0,1[=1$, même si 1 n'est pas dans l'ensemble. <b>La sup existe là où le max n'existe pas</b> : c'est tout son intérêt.</p>
+</div>
+
+<div class="box def"><span class="t">Définition 1.25 — PAR CŒUR</span>
+<p>$M$ est la <b>borne supérieure</b> de $A$ si :</p>
+<ol type="a"><li>$M$ est un majorant de $A$ ;</li><li>si $S$ est un majorant de $A$, alors $S\geq M$.</li></ol>
+<p>= <b>le plus petit des majorants</b>. Notation : $\sup(A)$.</p>
+</div>
+<div class="box def"><span class="t">Définition 1.30 — borne inférieure</span>
+<p>$m$ est la <b>borne inférieure</b> de $A$ si : (a) $m$ est un minorant ; (b) tout minorant $u$ vérifie $u\leq m$.<br>= <b>le plus grand des minorants</b>. Notation : $\inf(A)$.</p>
+</div>
+
+<h3>Exemple 1.26 — sup ]−∞, 3[ = 3 (avec la définition)</h3>
+<div class="box demo"><span class="t">Démonstration</span>
+<p>(a) Pour tout $x\in]-\infty,3[$, $x\lt3$ donc $x\leq3$ : 3 est un majorant.</p>
+<p>(b) On montre « $S$ majorant ⇒ $S\geq3$ » par <b>contraposée</b> : « $S\lt3$ ⇒ $S$ n'est pas un majorant ». Si $S\lt3$, le milieu $x=\frac{S+3}2$ vérifie $S\lt x\lt3$ : $x$ est dans l'ensemble et dépasse $S$. Donc $S$ n'est pas un majorant. ∎</p>
+</div>
+
+<h3>Exemple 1.27 — sup {2 − 1/n} = 2</h3>
+<div class="box demo"><span class="t">Démonstration</span>
+<p>(a) $2-\frac1n\leq2$ : 2 est un majorant.</p>
+<p>(b) Par l'absurde : soit $S$ un majorant avec $S\lt2$. Alors $\forall n\geq1$, $2-\frac1n\leq S$, c'est-à-dire $\frac1n\geq2-S$. Mais $\eps=2-S>0$ et Archimède donne un $n$ avec $\frac1n\lt\eps$. Contradiction. ∎</p>
+</div>
+
+<h3>Exemple 1.28 — l'inégalité stricte se perd</h3>
+<p>$C=\{x^2+1,\ x\in[0,2[\}$. Tous les éléments sont $\lt5$. Donc 5 est un majorant, donc $\sup C\leq5$ (le plus petit majorant est $\leq$ n'importe quel majorant).</p>
+<div class="piege"><span class="t">Piège très classique (tombé au partiel 2023, vrai/faux n°2)</span>
+<p>Si tous les éléments de $A$ sont $\lt5$, on peut seulement dire $\sup A\leq5$, <b>pas</b> $\sup A\lt5$. Ici justement $\sup C=5$ (exercice 1.6).<br>
+De même : si $\forall x\in A,\ x>2$, alors $\inf A\geq2$, pas forcément $>2$ (ex : $A=]2,3]$, $\inf A=2$).</p>
+</div>
+
+<div class="box thm"><span class="t">Unicité (Proposition 1.29)</span>
+<p>Si $M_1$ et $M_2$ sont deux bornes sup de $A$ : $M_1$ est un majorant et $M_2$ est le plus petit majorant ⇒ $M_2\leq M_1$. En échangeant les rôles, $M_1\leq M_2$. Donc $M_1=M_2$.</p>
+</div>
+
+<details><summary>Exercice 1.6 (sup C = 5) et Exercice 1.7 — voir la correction</summary>
+<p><b>1.6.</b> On sait $5$ majorant. Montrons qu'aucun $S\lt5$ n'est majorant (ou utilise la caractérisation du §10). Soit $\eps>0$ ; on cherche $x\in[0,2[$ avec $x^2+1>5-\eps$. Avec $x=2-t$, $t\in]0,2]$ : $x^2+1=5-4t+t^2>5-4t$. On choisit $t=\min(1,\frac\eps4)$ : alors $x\in[1,2[\subset[0,2[$ et $x^2+1>5-4t\geq5-\eps$. ∎</p>
+<p><b>1.7.1.</b> $\sup]-\infty,b[=b$ : identique à l'ex. 1.26 avec $b$ à la place de 3. Pour $[a,b[$ : si $S\lt b$, le point $x=\max\left(a,\frac{S+b}2\right)$ est dans $[a,b[$ et $>S$ (si $S\lt a$, $x=a>S$ convient ; sinon le milieu).</p>
+<p><b>1.7.2.</b> Si $A\subset B$ : $\sup B$ majore $B$, donc majore $A$ (car les éléments de $A$ sont dans $B$). Donc $\sup B$ est un majorant de $A$, et $\sup A$ est le plus petit des majorants de $A$ : $\sup A\leq\sup B$.</p>
+</details>
+
+<!-- ================================================================== -->
+<h2 id="carac">10. La caractérisation avec les ε — LE théorème clé <span class="small">(p. 16–17)</span></h2>
+
+<div class="box thm"><span class="t">Théorème 1.31 — PAR CŒUR (question de cours au partiel 2023 !)</span>
+<p>Soit $A\subset\R$. Un réel $M$ est la borne supérieure de $A$ <b>si et seulement si</b> :</p>
+<ol type="i"><li>$M$ est un majorant de $A$ ;</li><li>$\forall\eps>0,\ \exists x\in A,\ x>M-\eps$.</li></ol>
+</div>
+
+<div class="box intuit"><span class="t">Comprendre (ii) avec une image</span>
+<p>(ii) dit : « <b>Aussi près que tu veuilles en dessous de $M$, il y a des éléments de $A$.</b> » Si tu descends $M$ même d'un tout petit $\eps$, le nombre $M-\eps$ n'est plus un plafond : un élément de $A$ passe au-dessus.</p>
+<p>Donc (i) + (ii) = « $M$ est un plafond, et on ne peut pas le baisser » = « $M$ est le plus petit plafond ».</p>
+<p style="font-family:monospace;background:#fff;padding:8px;border:1px solid #ddd">
+ ←—— éléments de A ——•—•—••••••|·········→<br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;M−ε&nbsp;&nbsp;x&nbsp;&nbsp;M<br>
+ il y a toujours un x de A dans ]M−ε, M]
+</p>
+</div>
+
+<h3>Démonstration (deux sens)</h3>
+<div class="box demo"><span class="t">Sens ⇐ : (i) et (ii) ⇒ M = sup A</span>
+<p>(a) $M$ est un majorant : c'est (i).</p>
+<p>(b) Soit $S$ un majorant ; montrons $S\geq M$. Par contraposée : supposons $S\lt M$. Posons $\eps=M-S>0$. Par (ii), il existe $x\in A$ avec $x>M-\eps=M-(M-S)=S$. Donc $S$ n'est pas un majorant. ∎</p>
+</div>
+<div class="box demo"><span class="t">Sens ⇒ : M = sup A ⇒ (i) et (ii)</span>
+<p>(i) fait partie de la définition.</p>
+<p>(ii) Soit $\eps>0$. $M-\eps\lt M$, et $M$ est le plus petit majorant, donc $M-\eps$ <b>n'est pas</b> un majorant. « $M-\eps$ n'est pas un majorant » = négation de « $\forall x\in A,\ x\leq M-\eps$ » = « $\exists x\in A,\ x>M-\eps$ ». C'est (ii). ∎</p>
+</div>
+
+<div class="box thm"><span class="t">Théorème 1.36 — version borne inférieure (PAR CŒUR)</span>
+<p>$m=\inf A$ $\iff$ (i) $m$ est un minorant de $A$ ; (ii) $\forall\eps>0,\ \exists x\in A,\ x\lt m+\eps$.</p>
+</div>
+
+<div class="box astuce"><span class="t">MÉTHODE — montrer que M = sup A (recette)</span>
+<ol>
+<li><b>Majorant :</b> « Soit $x\in A$ … donc $x\leq M$. »</li>
+<li><b>Approche :</b> « Soit $\eps>0$. » Au brouillon, cherche un élément de $A$ dans $]M-\eps,M]$. En général $A$ dépend d'un paramètre $n$ : tu résous l'inégalité « élément $>M-\eps$ » en $n$, et tu prends $n$ assez grand (Archimède / partie entière).</li>
+<li>Conclure : « D'après la caractérisation de la borne supérieure, $\sup A=M$. »</li>
+</ol>
+</div>
+
+<h4>Exemples 1.32 et 1.33 refaits avec la recette</h4>
+<p><b>$\sup[0,3[=3$ :</b> 3 majore. Soit $\eps>0$. Si $\eps\geq3$, $x=0$ convient ($0>3-\eps$). Si $\eps\lt3$, $x=3-\frac\eps2$ est dans $[0,3[$ et $x>3-\eps$. ∎</p>
+<p class="small">Pourquoi deux cas ? Parce que si $\eps$ est énorme, $3-\frac\eps2$ peut être négatif, donc hors de $[0,3[$. Il faut toujours vérifier que l'élément qu'on propose est <b>vraiment dans $A$</b>.</p>
+<p><b>$\sup\{2-\frac1n\}=2$ :</b> 2 majore. Soit $\eps>0$. On veut $n$ avec $2-\frac1n>2-\eps$, soit $\frac1n\lt\eps$ : Archimède donne un tel $n$ (par ex. $n=E(\frac1\eps)+1$). ∎</p>
+
+<details><summary>Exercice 1.8 — sup {1 − 1/n²} = 1 — voir la correction</summary>
+<p>1 majore car $\frac1{n^2}>0$. Soit $\eps>0$. Par Archimède, il existe $n\geq1$ avec $\frac1n\lt\eps$. Comme $n^2\geq n$, $\frac1{n^2}\leq\frac1n\lt\eps$, donc $1-\frac1{n^2}>1-\eps$. Par la caractérisation, $\sup=1$.</p>
+</details>
+
+<!-- ================================================================== -->
+<h2 id="existence">11. Le théorème d'existence de la borne sup <span class="small">(p. 17–19)</span></h2>
+
+<p>Quand une partie a-t-elle une borne sup ?</p>
+<ul>
+<li>Si elle n'est <b>pas majorée</b> : pas de majorant du tout, donc pas de plus petit majorant. Ex : $[3,+\infty[$.</li>
+<li>Si elle est <b>vide</b> : tout réel est un majorant de $\emptyset$ (la phrase « $\forall x\in\emptyset,\ x\leq M$ » est vraie car il n'y a aucun $x$ à vérifier). Il n'y a donc pas de plus petit majorant.</li>
+</ul>
+
+<div class="box thm"><span class="t">Théorème 1.34 — Propriété de la borne supérieure (PAR CŒUR, c'est LE théorème du chapitre)</span>
+<p><b>Toute partie non vide et majorée de $\R$ admet une borne supérieure.</b></p>
+<p>Version inf (Théorème 1.37) : <b>toute partie non vide et minorée de $\R$ admet une borne inférieure.</b></p>
+</div>
+
+<div class="piege"><span class="t">Pièges</span>
+<ul>
+<li>Les <b>deux</b> hypothèses (non vide ET majorée) doivent être vérifiées et <b>écrites</b> dans ta copie : « $A$ est non vide car $0\in A$ ; $A$ est majorée par 5 ; donc $A$ admet une borne supérieure. »</li>
+<li>Le théorème dit que la sup <b>existe</b>, il ne dit <b>pas sa valeur</b>.</li>
+<li>C'est faux dans $\Q$ : $\{x\in\Q,\ x^2\lt2\}$ est non vide, majorée, mais n'a pas de sup <b>rationnelle</b> (elle vaudrait $\sqrt2$). C'est pour ça qu'on a besoin de $\R$.</li>
+</ul>
+</div>
+
+<h3>L'idée de la démonstration (à comprendre, pas forcément à réciter)</h3>
+<p>C'est la dichotomie du §6 :</p>
+<ol>
+<li>Prends $a\in A$ (existe car non vide) et $b$ un majorant. La sup, si elle existe, est dans $[a,b]$.</li>
+<li>Regarde le milieu $c$. Si $c$ est un majorant, la sup est dans $[a,c]$. Sinon, un élément $d\in A$ dépasse $c$, et la sup est dans $[d,b]$. Dans les deux cas : un segment au moins deux fois plus court, dont le bord gauche est dans $A$ et le bord droit est un majorant.</li>
+<li>On répète : segments emboîtés $[a_n,b_n]$, de longueur $\leq\frac{b-a}{2^n}$, avec $a_n\in A$ et $b_n$ majorant.</li>
+<li>Segments emboîtés ⇒ un point commun $\mu$ ; Archimède ⇒ un seul.</li>
+<li>On vérifie la caractérisation : $\mu$ est un majorant (sinon un $x\in A$ dépasserait $\mu$ puis $b_n$ pour $n$ grand, alors que $b_n$ est un majorant) et pour tout $\eps$, $a_n\in A$ est à moins de $\eps$ de $\mu$ pour $n$ grand.</li>
+</ol>
+
+<details><summary>Exercice 1.10 — existence de l'inf à partir de celle du sup — voir la correction</summary>
+<p>$A$ non vide minorée, $B=\{-a,\ a\in A\}$ (le « miroir » de $A$).</p>
+<p><b>1.</b> $s$ majore $B$ ⟺ $\forall a\in A,\ -a\leq s$ ⟺ $\forall a\in A,\ a\geq-s$ ⟺ $-s$ minore $A$.</p>
+<p><b>2.</b> $A$ minorée par $m$ ⇒ $B$ majorée par $-m$ ; $A$ non vide ⇒ $B$ non vide. Par le théorème 1.34, $B$ a une sup.</p>
+<p><b>3.</b> $M=\sup B$ majore $B$, donc $\mu=-M$ minore $A$ (question 1). Si $u$ est un minorant de $A$, $-u$ majore $B$, donc $-u\geq M$, soit $u\leq-M=\mu$. Donc $\mu$ est le plus grand minorant : $\mu=\inf A$. <b>À retenir : $\inf A=-\sup(-A)$.</b></p>
+</details>
+
+<!-- ================================================================== -->
+<h2 id="supmax">12. Sup ou max ? <span class="small">(p. 19–20)</span></h2>
+
+<div class="box thm"><span class="t">Propositions 1.38 et 1.39</span>
+<ul>
+<li>Si $A$ a un plus grand élément, alors $A$ a une borne sup et $\sup A=\max A$.</li>
+<li>Pour $A$ non vide majorée : $A$ a un plus grand élément $\iff\sup A\in A$.</li>
+</ul>
+<p>Pareil avec min/inf : $A$ a un plus petit élément $\iff\inf A\in A$, et alors $\min A=\inf A$.</p>
+</div>
+<p><b>Preuve de 1.38 :</b> $\mu=\max A$ est un majorant ; et si $S$ est un majorant, comme $\mu\in A$, $\mu\leq S$. Donc $\mu$ est le plus petit majorant.<br>
+<b>Preuve de 1.39 :</b> (⇒) $\sup A=\max A\in A$. (⇐) $\sup A$ est un majorant qui est dans $A$ : c'est la définition du max.</p>
+
+<table>
+<tr><th>Ensemble</th><th>sup</th><th>max ?</th><th>inf</th><th>min ?</th></tr>
+<tr><td>$[0,1]$</td><td>1</td><td class="ok">1</td><td>0</td><td class="ok">0</td></tr>
+<tr><td>$[0,1[$</td><td>1</td><td class="ko">non</td><td>0</td><td class="ok">0</td></tr>
+<tr><td>$]0,1[$</td><td>1</td><td class="ko">non</td><td>0</td><td class="ko">non</td></tr>
+<tr><td>$\{\frac1n,\ n\geq1\}$</td><td>1</td><td class="ok">1</td><td>0</td><td class="ko">non</td></tr>
+<tr><td>$\{2-\frac1n,\ n\geq1\}$</td><td>2</td><td class="ko">non</td><td>1</td><td class="ok">1</td></tr>
+<tr><td>$\N$</td><td>n'existe pas</td><td class="ko">non</td><td>0</td><td class="ok">0</td></tr>
+<tr><td>$\emptyset$</td><td>n'existe pas</td><td class="ko">non</td><td>n'existe pas</td><td class="ko">non</td></tr>
+</table>
+
+<div class="box coeur"><span class="t">Résumé en une phrase</span>
+Le <b>max</b> est un majorant <b>dans</b> $A$ (n'existe pas toujours). La <b>sup</b> est le plus petit majorant (existe dès que $A$ est non vide et majorée). Quand le max existe, il est égal à la sup.
+</div>
+
+<!-- ================================================================== -->
+<h2 id="intervalles">13. Intervalles <span class="small">(p. 20–22)</span></h2>
+
+<div class="box def"><span class="t">Définition 1.42 — intervalle (« partie sans trou »)</span>
+<p>$I\subset\R$ est un intervalle si : <b>dès que $x$ et $y$ sont dans $I$, tout ce qui est entre eux est dans $I$.</b></p>
+$$\forall(x,y)\in I^2,\ \forall z\in\R,\ (x\leq z\leq y\Rightarrow z\in I).$$
+</div>
+<p><b>Montrer que ce n'est PAS un intervalle :</b> trouver $x,y\in I$ et $z$ entre les deux avec $z\notin I$.</p>
+<ul>
+<li>$\Z$ : $0,1\in\Z$, $\frac13$ est entre, $\frac13\notin\Z$.</li>
+<li>$\Q$ (exercice 1.11) : $1,2\in\Q$, $\sqrt2$ est entre et $\sqrt2\notin\Q$.</li>
+</ul>
+
+<details><summary>Exercice 1.11.2 — l'intersection de deux intervalles est un intervalle</summary>
+<p>Soient $x,y\in I_1\cap I_2$ et $z$ avec $x\leq z\leq y$. Comme $x,y\in I_1$ et $I_1$ est un intervalle, $z\in I_1$. De même $z\in I_2$. Donc $z\in I_1\cap I_2$. ∎ (Attention, la <b>réunion</b> n'est pas toujours un intervalle : $[0,1]\cup[2,3]$.)</p>
+</details>
+
+<h3>Classification</h3>
+<p>Le poly montre (avec sup, inf et la caractérisation) que les intervalles sont exactement :</p>
+<p>$[a,b],\ [a,b[,\ ]a,b],\ ]a,b[,\quad [a,+\infty[,\ ]a,+\infty[,\quad ]-\infty,b],\ ]-\infty,b[,\quad \R,\quad \emptyset.$</p>
+<p><b>Idée de la preuve (cas $I$ borné, sans max, avec min) :</b> soit $a=\inf I$, $b=\sup I$. Alors $I\subset[a,b[$. Inversement si $x\in[a,b[$, avec $\eps=b-x>0$ la caractérisation donne $\beta\in I$ avec $\beta>b-\eps=x$. Donc $x$ est entre $a\in I$ et $\beta\in I$ : $x\in I$. D'où $I=[a,b[$.</p>
+
+<div class="box def"><span class="t">Définition 1.44</span>
+<b>Intervalle ouvert</b> : $]a,b[$, $]-\infty,b[$, $]a,+\infty[$, $\emptyset$, $\R$. <b>Segment</b> : $[a,b]$ avec $a\leq b$. Attention : $[0,1[$ n'est <b>ni ouvert ni un segment</b>.
+</div>
+
+<!-- ================================================================== -->
+<h2 id="E">14. Partie entière <span class="small">(p. 22–23)</span></h2>
+
+<div class="box def"><span class="t">Théorème-définition 1.46 — PAR CŒUR</span>
+<p>Pour tout $x\in\R$, il existe un <b>unique</b> $n\in\Z$ tel que
+$$n\leq x\lt n+1.$$
+On le note $E(x)$ (ou $\lfloor x\rfloor$) : c'est l'entier <b>immédiatement à gauche</b> de $x$ (ou $x$ lui-même s'il est entier).</p>
+</div>
+
+<div class="box coeur"><span class="t">Les inégalités à connaître (on s'en sert partout)</span>
+$$E(x)\leq x\lt E(x)+1\qquad\text{et donc}\qquad x-1\lt E(x)\leq x.$$
+</div>
+
+<p><b>Exemples :</b> $E(3{,}72)=3$, $E(2{,}99)=2$, $E(5)=5$.</p>
+<div class="piege"><span class="t">PIÈGE — les négatifs</span>
+<p>$E(-7{,}00001)=-8$ (pas $-7$ !) : l'entier immédiatement à gauche de $-7{,}00001$ est $-8$. Vérifie : $-8\leq-7{,}00001\lt-7$. ✓</p>
+<p>Conséquence (vrai/faux du partiel 2023) : $E(-x)=-E(x)$ est <b>FAUX</b>. Contre-exemple : $E(-0{,}5)=-1$ mais $-E(0{,}5)=0$.</p>
+</div>
+
+<h3>Démonstration</h3>
+<div class="box demo"><span class="t">Unicité</span>
+<p>Si $n_1\leq x\lt n_1+1$ et $n_2\leq x\lt n_2+1$, alors $n_1\leq x\lt n_2+1$, donc $n_1\lt n_2+1$. Comme ce sont des entiers, $n_1\leq n_2$. Symétriquement $n_2\leq n_1$. Donc $n_1=n_2$.</p>
+<p class="small">Le petit argument clé : pour des <b>entiers</b>, $n_1\lt n_2+1\iff n_1\leq n_2$ (il n'y a pas d'entier strictement entre $n_2$ et $n_2+1$).</p>
+</div>
+<div class="box demo"><span class="t">Existence</span>
+<p>Soit $E=\{k\in\Z,\ k\leq x\}$. Elle est non vide (Archimède donne un entier $m>-x$, donc $-m\lt x$ et $-m\in E$) et majorée par $x$. Partie non vide majorée de $\Z$ ⇒ elle a un plus grand élément $n$. Alors $n\in E$ donc $n\leq x$, et $n+1\notin E$ (sinon $n$ ne serait pas le plus grand) donc $x\lt n+1$. ∎</p>
+</div>
+
+<div class="box astuce"><span class="t">L'utilisation n°1 : trouver « à partir de quel $n$ »</span>
+<p><b>Remarque 1.49 :</b> le plus petit entier $m$ tel que $m>A$ est $m=E(A)+1$.</p>
+<p><b>Application 1.50 :</b> pour quels $n\geq1$ a-t-on $\frac5{n^2}\lt\eps$ ? $\iff n^2>\frac5\eps\iff n>\sqrt{5/\eps}\iff n\geq E(\sqrt{5/\eps})+1$.</p>
+<p>C'est EXACTEMENT ce qu'on fera pour les limites de suites : on trouve le rang $N$ comme ça.</p>
+</div>
+
+<details><summary>Exercices 1.12 et 1.13 — voir la correction</summary>
+<p><b>1.12.1.</b> Si $\eps\leq0$ : aucun $n$. Si $\eps>0$ : $\frac1n\lt\eps\iff n>\frac1\eps\iff n\geq E(\frac1\eps)+1$.</p>
+<p><b>1.12.2.</b> ($A\geq0$, $n\in\N$) $n^2>A\iff n>\sqrt A\iff n\geq E(\sqrt A)+1$.</p>
+<p><b>1.13.</b> Partie entière supérieure : unique $n$ avec $n-1\lt x\leq n$ (même preuve avec $\{k\in\Z,\ k\geq x\}$ et son plus petit élément). Si $x$ entier : $E(x)=\tilde E(x)=x$ (car $x\leq x\lt x+1$ et $x-1\lt x\leq x$). Si $x$ non entier : $E(x)\lt x\lt E(x)+1$ (inégalité stricte à gauche car $x\neq E(x)$), donc $n=E(x)+1$ vérifie $n-1\lt x\leq n$ : $\tilde E(x)=E(x)+1$.</p>
+</details>
+
+<!-- ================================================================== -->
+<h2 id="densite">15. Adhérence et densité <span class="small">(p. 23–26)</span></h2>
+
+<h3>15.1. Point adhérent, adhérence</h3>
+<div class="box def"><span class="t">Définition 1.51</span>
+<p>$x$ est <b>adhérent</b> à $D$ si : $\forall\delta>0,\ D\cap]x-\delta,x+\delta[\neq\emptyset$.<br>
+(« Aussi près que je regarde autour de $x$, je vois des points de $D$. ») L'<b>adhérence</b> $\mathrm{Adh}(D)$ (ou $\overline D$) = l'ensemble des points adhérents.</p>
+</div>
+<p>On a toujours $D\subset\mathrm{Adh}(D)$ : si $x\in D$, $x$ lui-même est dans $]x-\delta,x+\delta[$. (Le poly parle de « suite constante », c'est la même idée.)</p>
+
+<h4>Exemple 1.53 : Adh(]a, +∞[) = [a, +∞[</h4>
+<ul>
+<li>Les points de $]a,+\infty[$ sont adhérents (remarque ci-dessus).</li>
+<li>$a$ est adhérent : pour $\delta>0$, $]a,+\infty[\cap]a-\delta,a+\delta[=]a,a+\delta[$ contient $a+\frac\delta2$.</li>
+<li>Si $x\lt a$, prends $\delta=a-x>0$ : $]x-\delta,x+\delta[=]2x-a,a[$, tout y est $\lt a$, l'intersection est vide. $x$ n'est pas adhérent.</li>
+</ul>
+
+<details><summary>Exercice 1.14 — voir la correction</summary>
+<p><b>1.</b> $\mathrm{Adh}(\R^\star)=\R$ : il suffit de voir que 0 est adhérent : $\frac\delta2\in\R^\star\cap]-\delta,\delta[$.</p>
+<p><b>2.</b> $\mathrm{Adh}(]a,b[)=[a,b]$ : même méthode qu'en 1.53 aux deux bords (attention, pour $a$ on prend $a+\min(\frac\delta2,\frac{b-a}2)$ pour rester dans $]a,b[$).</p>
+<p><b>3.</b> $\mathrm{Adh}(\Z)=\Z$ : si $x\notin\Z$, $\delta=\min(x-E(x),\ E(x)+1-x)>0$ et $]x-\delta,x+\delta[\subset]E(x),E(x)+1[$ ne contient aucun entier.</p>
+<p><b>4.</b> $\sup D\in\mathrm{Adh}(D)$ : pour $\delta>0$, la caractérisation donne $x\in D$ avec $\sup D-\delta\lt x\leq\sup D$, donc $x\in]\sup D-\delta,\sup D+\delta[$. Même chose pour inf.</p>
+</details>
+
+<h3>15.2. Partie dense</h3>
+<div class="box def"><span class="t">Définition 1.54 et Proposition 1.55 — PAR CŒUR</span>
+<p>$U$ est <b>dense dans $\R$</b> si : $\forall x\in\R,\ \forall\eps>0,\ U\cap]x-\eps,x+\eps[\neq\emptyset$.</p>
+<p><b>Formulation équivalente (la plus utilisée) :</b> pour tous réels $a\lt b$, il existe un élément de $U$ dans $]a,b[$.</p>
+<p>En français : « <b>dans tout intervalle ouvert non vide, aussi petit soit-il, il y a un élément de $U$</b> ».</p>
+</div>
+
+<details><summary>Exercice 1.15 — preuve de l'équivalence</summary>
+<p>(i)⇒(ii) : soient $a\lt b$. Pose $x=\frac{a+b}2$ et $\eps=\frac{b-a}2>0$ : alors $]x-\eps,x+\eps[=]a,b[$, et (i) donne un élément de $U$ dedans.</p>
+<p>(ii)⇒(i) : soient $x\in\R$, $\eps>0$. Pose $a=x-\eps\lt b=x+\eps$ et applique (ii). ∎</p>
+</details>
+
+<ul>
+<li>$\Z$ n'est <b>pas</b> dense : aucun entier dans $]1{,}3\,;\,1{,}376[$.</li>
+<li>$\R$ est dense dans $\R$ (le milieu de $]a,b[$ est dedans).</li>
+<li>Une partie majorée $U$ n'est jamais dense (ex. 1.17) : si $M$ majore $U$, il n'y a aucun point de $U$ dans $]M,M+1[$.</li>
+<li>Si $U$ est dense, $\mathrm{Adh}(U)=\R$ (ex. 1.16) : c'est littéralement la définition.</li>
+</ul>
+
+<h3>15.3. ℚ est dense dans ℝ (Théorème 1.57) — démonstration TRÈS importante</h3>
+
+<div class="box intuit"><span class="t">L'idée (explication n°1)</span>
+<p>On veut une fraction dans $]a,b[$, même si l'intervalle est minuscule. On choisit un dénominateur $n$ si grand que les « pas » $\frac1n$ sont plus petits que la largeur $b-a$. Puis on avance sur la graduation $\frac0n,\frac1n,\frac2n,\ldots$ : comme les pas sont plus petits que le trou, on ne peut pas « sauter par-dessus » $]a,b[$. On prend la première graduation $\frac kn$ qui dépasse $a$ : elle tombe forcément avant $b$.</p>
+</div>
+
+<div class="box demo"><span class="t">La démonstration rédigée (explication n°2)</span>
+<p>Soient $a\lt b$.</p>
+<p><span class="step">Étape 1 — choisir le dénominateur.</span> On prend $n\in\N^\star$ avec $\frac1n\lt b-a$, par exemple $n=E\!\left(\frac1{b-a}\right)+1$ (existe par Archimède).</p>
+<p><span class="step">Étape 2 — choisir le numérateur.</span> $k=E(na)+1$ : le plus petit entier tel que $\frac kn>a$ (c'est-à-dire $k>na$).</p>
+<p><span class="step">Étape 3 — vérifier.</span> $q=\frac kn\in\Q$.</p>
+<ul>
+<li>$q>a$ : car $k=E(na)+1>na$.</li>
+<li>$q\lt b$ : $k-1=E(na)\leq na$, donc $k\leq na+1$, donc $q=\frac kn\leq a+\frac1n\lt a+(b-a)=b$.</li>
+</ul>
+<p>Donc $q\in]a,b[\cap\Q$. ∎</p>
+</div>
+
+<div class="box astuce"><span class="t">Exemple numérique pour voir que ça marche</span>
+<p>$a=0{,}31$, $b=0{,}32$. $b-a=0{,}01$, $n=E(100)+1=101$. $na=31{,}31$, $k=E(31{,}31)+1=32$. $q=\frac{32}{101}\approx0{,}3168$ : bien dans $]0{,}31\,;\,0{,}32[$. ✓</p>
+</div>
+
+<h3>15.4. Les irrationnels ℝ∖ℚ sont denses (Théorème 1.58)</h3>
+<div class="box demo"><span class="t">Démonstration (exercice 1.19)</span>
+<p>Soient $a\lt b$. On décale de $\sqrt2$ : $\alpha=a-\sqrt2\lt\beta=b-\sqrt2$.</p>
+<ol>
+<li>$\Q$ est dense, donc il existe $u\in\Q$ avec $\alpha\lt u\lt\beta$.</li>
+<li>Alors $a\lt u+\sqrt2\lt b$. Et $u+\sqrt2$ est irrationnel : sinon $u+\sqrt2=r\in\Q$, donc $\sqrt2=r-u\in\Q$ (différence de deux rationnels), absurde.</li>
+</ol>
+<p>Donc $]a,b[$ contient un irrationnel. ∎</p>
+</div>
+<div class="box coeur"><span class="t">Fait à retenir</span>
+rationnel + irrationnel = irrationnel. rationnel non nul × irrationnel = irrationnel. (Mais irrationnel + irrationnel peut être rationnel : $\sqrt2+(-\sqrt2)=0$.)
+</div>
+
+<details><summary>Exercice 1.18 — ces parties sont-elles denses ?</summary>
+<p><b>(a)</b> $U_1$ : fractions de dénominateur $\leq10$. <b>Pas dense</b> : dans $]0,\frac1{10}[$ il n'y a rien (une fraction $\frac pq>0$ avec $q\leq10$ a $p\geq1$ donc $\frac pq\geq\frac1{10}$).</p>
+<p><b>(b)</b> $U_2$ : dénominateurs puissances de 2. <b>Dense</b> : même preuve que pour $\Q$ avec $n=2^m$ où $2^m>\frac1{b-a}$ (possible car $2^m\geq m$ et Archimède).</p>
+<p><b>(c)</b> $U_3$ : $10|p|\geq q$, c'est-à-dire $\left|\frac pq\right|\geq\frac1{10}$. <b>Pas dense</b> : rien dans $]-\frac1{10},\frac1{10}[$.</p>
+</details>
+
+<!-- ================================================================== -->
+<h2 id="suites">16. Chapitre 2 — Suites : définitions et vocabulaire <span class="small">(p. 27–29)</span></h2>
+
+<div class="box def"><span class="t">Définition 2.1</span>
+Une <b>suite réelle</b> est une application $u:\N\to\R$. On note $u_n$ au lieu de $u(n)$, et la suite $(u_n)_{n\in\N}$.
+</div>
+<div class="piege"><span class="t">Piège de notation (le poly insiste)</span>
+« la suite $u_n$ » ou « la suite $n^2+1$ » : <b>incorrect</b>. $u_n$ est un <b>nombre</b> (le terme numéro $n$), $(u_n)_{n\in\N}$ est la <b>suite</b>. Écris « la suite $(n^2+1)_{n\in\N}$ » ou « la suite $(u_n)$ définie par $u_n=n^2+1$ ».
+</div>
+
+<p>Une suite peut être définie : par une formule ($u_n=\ln(1+n^2)$), par récurrence ($u_0=1$, $u_n=u_{n-1}^2$), ou abstraitement ($u_n$ = $n$-ième décimale de $\pi$). Opérations : $(u+v)_n=u_n+v_n$, $(uv)_n=u_nv_n$, $(a\cdot u)_n=au_n$.</p>
+
+<div class="box def"><span class="t">Définition 2.2 — constante, stationnaire, périodique</span>
+<ul>
+<li><b>constante</b> : $\exists a,\ \forall n,\ u_n=a$.</li>
+<li><b>stationnaire</b> : $\exists a,\ \exists p,\ \forall n\geq p,\ u_n=a$ (constante <b>à partir d'un certain rang</b>). Ex : $u_n=E\!\left(\frac{n+5}{n^2+1}\right)$ vaut 0 dès $n\geq3$.</li>
+<li><b>périodique</b> : $\exists p\geq1,\ \forall n,\ u_{n+p}=u_n$. Ex : $((-1)^n)$, de période 2.</li>
+</ul>
+</div>
+
+<div class="box def"><span class="t">Définition 2.4 — monotonie (PAR CŒUR)</span>
+<ul>
+<li><b>croissante</b> : $\forall n,\ u_{n+1}\geq u_n$ ; <b>strictement</b> : $u_{n+1}>u_n$.</li>
+<li><b>décroissante</b> : $\forall n,\ u_{n+1}\leq u_n$ ; <b>strictement</b> : $u_{n+1}\lt u_n$.</li>
+<li><b>monotone</b> : croissante ou décroissante.</li>
+</ul>
+</div>
+<div class="piege"><span class="t">Pièges</span>
+<ul>
+<li>« Pas croissante » ≠ « décroissante » ! $((-1)^n)$ n'est ni l'un ni l'autre.</li>
+<li>Méthode : étudier le signe de $u_{n+1}-u_n$. Ou, <b>seulement si $u_n>0$</b>, comparer $\frac{u_{n+1}}{u_n}$ à 1.</li>
+</ul>
+</div>
+
+<div class="box def"><span class="t">Définition 2.5 et Proposition 2.6 — suites bornées</span>
+<p>$(u_n)$ majorée : $\exists M,\ \forall n,\ u_n\leq M$. Minorée : $\exists m,\ \forall n,\ u_n\geq m$. Bornée : les deux.<br>
+<b>Bornée $\iff\exists M,\ \forall n,\ |u_n|\leq M$</b> (c'est la Prop. 1.14 appliquée à $\{u_n,\ n\in\N\}$).</p>
+<p>On définit $\sup_n u_n=\sup\{u_n,\ n\in\N\}$ (existe si majorée, car l'ensemble contient $u_0$ donc est non vide), idem inf, max, min.</p>
+</div>
+
+<div class="box def"><span class="t">Définition 2.7 — « à partir d'un certain rang » (APCR)</span>
+<p>$(u_n)$ vérifie $P$ APCR s'il existe $p\in\N$ tel que $(u_n)_{n\geq p}$ vérifie $P$.</p>
+<p>Ex : $(n-10)$ est positive à partir du rang 10. $\left(\frac{1000^n}{n!}\right)$ est strictement décroissante APCR car $\frac{u_{n+1}}{u_n}=\frac{1000}{n+1}\lt1$ dès $n\geq1000$.</p>
+</div>
+
+<!-- ================================================================== -->
+<h2 id="limite">17. Limite d'une suite — LA définition ε–N <span class="small">(p. 29–31)</span></h2>
+
+<div class="box def"><span class="t">Définition 2.10 — PAR CŒUR, MOT POUR MOT (question de cours partiel 2023)</span>
+<p>Soit $(u_n)$ une suite réelle et $\ell\in\R$. On dit que $(u_n)$ <b>converge vers $\ell$</b> lorsque :</p>
+$$\forall\eps>0,\quad\exists N\in\N,\quad\forall n\geq N,\quad|u_n-\ell|\lt\eps.$$
+</div>
+
+<h3>Lire la définition morceau par morceau</h3>
+<table>
+<tr><th>Morceau</th><th>Ce que ça veut dire</th></tr>
+<tr><td>$\forall\eps>0$</td><td>« Quelle que soit la précision $\eps$ qu'on m'impose (même $0{,}000001$)… »</td></tr>
+<tr><td>$\exists N\in\N$</td><td>« … je peux trouver un rang $N$ (qui dépend de $\eps$) … »</td></tr>
+<tr><td>$\forall n\geq N$</td><td>« … tel qu'à partir de ce rang, pour <b>tous</b> les termes suivants, … »</td></tr>
+<tr><td>$|u_n-\ell|\lt\eps$</td><td>« … $u_n$ est à distance moins de $\eps$ de $\ell$ », c'est-à-dire $u_n\in]\ell-\eps,\ell+\eps[$.</td></tr>
+</table>
+<div class="box intuit"><span class="t">L'image</span>
+<p>Trace une <b>bande horizontale</b> de demi-largeur $\eps$ autour de $\ell$. Converger vers $\ell$ = « quelle que soit la largeur de la bande, la suite finit par y entrer <b>et n'en sort plus</b> ». Plus la bande est fine, plus il faut attendre longtemps (N grand).</p>
+<p>C'est un <b>jeu</b> : l'adversaire choisit $\eps$, tu dois répondre par un $N$ qui marche.</p>
+</div>
+
+<div class="piege"><span class="t">Pièges sur la définition</span>
+<ul>
+<li>Le $N$ doit dépendre de $\eps$ <b>seulement</b>, jamais de $n$. Écrire « on prend $N=n+1$ » = 0 point.</li>
+<li>$N$ doit être un <b>entier</b> : on ne peut pas écrire $N=\frac1\eps$. On écrit $N=E(\frac1\eps)+1$.</li>
+<li>« $\forall n\geq N$ » : il faut que ce soit vrai pour <b>tous</b> les $n$ après $N$, pas pour un seul.</li>
+<li>On n'a le droit d'écrire $\lim u_n=\ell$ <b>qu'après</b> avoir prouvé que la suite converge.</li>
+<li>Utile : $u_n\to\ell\iff(u_n-\ell)\to0$ (Remarque 2.11).</li>
+</ul>
+</div>
+
+<h3>Exemple 2.12 — (1/n) tend vers 0 (exemple concret)</h3>
+<div class="box astuce"><span class="t">Le brouillon (on cherche N)</span>
+<p>On veut $|\frac1n-0|\lt\eps$, c'est-à-dire $\frac1n\lt\eps$, c'est-à-dire $n>\frac1\eps$. Les entiers qui marchent sont ceux $\geq E(\frac1\eps)+1$. Donc on prend $N=E(\frac1\eps)+1$.</p>
+</div>
+<div class="box demo"><span class="t">La rédaction (ce que tu écris sur la copie)</span>
+<p>Soit $\eps>0$. Posons $N=E(\frac1\eps)+1$. Alors $N>\frac1\eps$, donc $\frac1N\lt\eps$.<br>
+Soit $n\geq N$. On a $\left|\frac1n-0\right|=\frac1n\leq\frac1N\lt\eps$.<br>
+Donc $\forall\eps>0,\ \exists N,\ \forall n\geq N,\ |\frac1n-0|\lt\eps$ : la suite $(\frac1n)$ converge vers 0. ∎</p>
+</div>
+
+<div class="box coeur"><span class="t">MÉTHODE — prouver $u_n\to\ell$ avec la définition (recette en 4 étapes)</span>
+<ol>
+<li><b>Calculer</b> $|u_n-\ell|$ et le simplifier.</li>
+<li><b>Majorer</b> par une expression simple qui tend vers 0, du type $\frac Cn$ ou $\frac C{\sqrt n}$ (avec l'inégalité triangulaire, $|\cos|\leq1$, $|(-1)^n|=1$, $n+1\geq n$…).</li>
+<li><b>Résoudre</b> $\frac Cn\lt\eps\iff n>\frac C\eps$ : on pose $N=E(\frac C\eps)+1$.</li>
+<li><b>Rédiger</b> : « Soit $\eps>0$. Posons $N=\ldots$ Soit $n\geq N$. Alors $|u_n-\ell|\leq\ldots\leq\ldots\lt\eps$. »</li>
+</ol>
+</div>
+
+<h3>Exemple 2.13 — si $u_n\to\ell$ alors $7u_n+12\to7\ell+12$ (exemple abstrait)</h3>
+<p>Ici on ne connaît pas $u_n$, on sait juste qu'elle converge. Le truc : <b>utiliser l'hypothèse avec un ε bien choisi</b>.</p>
+<div class="box astuce"><span class="t">Le brouillon</span>
+<p>On veut $|(7u_n+12)-(7\ell+12)|\lt\eps$, c'est-à-dire $7|u_n-\ell|\lt\eps$, c'est-à-dire $|u_n-\ell|\lt\frac\eps7$. Or l'hypothèse « $u_n\to\ell$ » est vraie <b>pour tout</b> nombre $>0$, en particulier pour $\frac\eps7$ !</p>
+</div>
+<div class="box demo"><span class="t">Rédaction</span>
+<p>Soit $\eps>0$. Comme $\frac\eps7>0$ et $(u_n)$ converge vers $\ell$, il existe $N\in\N$ tel que $\forall n\geq N,\ |u_n-\ell|\lt\frac\eps7$.<br>
+Soit $n\geq N$. Alors $|(7u_n+12)-(7\ell+12)|=7|u_n-\ell|\lt7\cdot\frac\eps7=\eps$. ∎</p>
+</div>
+<div class="box intuit"><span class="t">Pourquoi a-t-on le droit d'utiliser ε/7 ?</span>
+<p>Dans la définition, la lettre $\eps$ est « muette » : « $\forall\eps>0,\ldots$ » veut dire la même chose que « $\forall\delta>0,\ldots$ ». C'est vrai pour <b>tout</b> nombre strictement positif. Donc on peut l'appliquer à $\delta=\frac\eps7$, ou à $\delta=1$, ou à $\delta=\sqrt\eps$… On choisit celui qui fait marcher le calcul (on le trouve au brouillon).</p>
+</div>
+
+<details><summary>Exercice 2.1 — voir la correction</summary>
+<p><b>1. $\frac5{n^2}\to0$.</b> Soit $\eps>0$. Posons $N=E\!\left(\sqrt{5/\eps}\right)+1$, donc $N>\sqrt{5/\eps}$, $N^2>\frac5\eps$. Pour $n\geq N$ : $\left|\frac5{n^2}\right|\leq\frac5{N^2}\lt\eps$. ∎</p>
+<p><b>2. $\frac{n+8}{n+1}\to1$.</b> Brouillon : $\left|\frac{n+8}{n+1}-1\right|=\frac7{n+1}\lt\frac7n$ (pour $n\geq1$). Soit $\eps>0$, $N=E(\frac7\eps)+1$ (donc $N\geq1$ et $N>\frac7\eps$). Pour $n\geq N$ : $\left|\frac{n+8}{n+1}-1\right|=\frac7{n+1}\lt\frac7n\leq\frac7N\lt\eps$. ∎</p>
+<p><b>3. $u_n\to0\Rightarrow u_n^2\to0$.</b> Brouillon : on veut $u_n^2\lt\eps$, il suffit $|u_n|\lt\sqrt\eps$. Soit $\eps>0$ ; on applique la définition avec $\sqrt\eps>0$ : il existe $N$ tel que $\forall n\geq N,\ |u_n|\lt\sqrt\eps$. Alors $|u_n^2-0|=|u_n|^2\lt\eps$. ∎</p>
+</details>
+
+<!-- ================================================================== -->
+<h2 id="neg">18. Suites qui ne convergent pas <span class="small">(p. 31–32)</span></h2>
+
+<p>On nie la définition (méthode du §0.2) :</p>
+<ul>
+<li>« $(u_n)$ ne converge pas vers $\ell$ » : $\exists\eps>0,\ \forall N\in\N,\ \exists n\geq N,\ |u_n-\ell|\geq\eps$.<br><span class="small">(Il y a une bande dont la suite ressort toujours, aussi loin qu'on aille.)</span></li>
+<li>« $(u_n)$ ne converge pas » (= <b>diverge</b>) : $\forall\ell\in\R,\ \exists\eps>0,\ \forall N,\ \exists n\geq N,\ |u_n-\ell|\geq\eps$.</li>
+</ul>
+
+<h3>Exemple 2.15 — $((-1)^n)$ diverge</h3>
+<div class="box intuit"><span class="t">L'idée</span>
+<p>La suite saute entre $1$ et $-1$ : ces deux valeurs sont à distance 2. Une bande de largeur totale 1 (donc $\eps=\frac12$) ne peut pas contenir les deux. Donc la suite ne peut pas rester dans une telle bande.</p>
+</div>
+<div class="box demo"><span class="t">Rédaction</span>
+<p>Soit $\ell\in\R$. Prenons $\eps=\frac12$. Soit $N\in\N$. Parmi $N$ et $N+1$, l'un est pair et l'autre impair, donc $|u_N-u_{N+1}|=2$. Par l'inégalité triangulaire :
+$$2=|u_N-u_{N+1}|\leq|u_N-\ell|+|\ell-u_{N+1}|.$$
+Donc l'un des deux termes est $\geq1$ : il existe $n\in\{N,N+1\}$, donc $n\geq N$, avec $|u_n-\ell|\geq1\geq\frac12$. Ainsi $(u_n)$ ne converge vers aucun $\ell$ : elle diverge. ∎</p>
+</div>
+<p class="small">(Le poly annonce une méthode plus pratique plus tard — les sous-suites — mais celle-ci peut tomber.)</p>
+
+<!-- ================================================================== -->
+<h2 id="props">19. Propriétés élémentaires <span class="small">(p. 32–34)</span></h2>
+
+<h3>19.1. Unicité de la limite (Prop. 2.16)</h3>
+<div class="box intuit"><span class="t">L'idée</span>
+Si la suite tendait vers deux limites différentes $\ell$ et $\ell'$, on dessine deux bandes autour de $\ell$ et $\ell'$ assez fines pour qu'elles soient <b>disjointes</b> (rayon $\frac{|\ell-\ell'|}3$). À partir d'un moment, la suite devrait être dans les deux bandes à la fois. Impossible.
+</div>
+<div class="box demo"><span class="t">Rédaction (par l'absurde)</span>
+<p>Supposons $\ell\neq\ell'$. Posons $\eps=\frac{|\ell-\ell'|}3>0$.<br>
+Il existe $N_1$ tel que $\forall n\geq N_1,\ |u_n-\ell|\lt\eps$, et $N_2$ tel que $\forall n\geq N_2,\ |u_n-\ell'|\lt\eps$.<br>
+Prenons $N=\max(N_1,N_2)$ (il est $\geq$ aux deux, donc les deux propriétés s'appliquent). Alors
+$$|\ell-\ell'|\leq|\ell-u_N|+|u_N-\ell'|\lt2\eps=\tfrac23|\ell-\ell'|.$$
+En divisant par $|\ell-\ell'|>0$ : $1\lt\frac23$. Absurde. ∎</p>
+</div>
+<div class="box astuce"><span class="t">Astuce qui revient sans cesse : le max des rangs</span>
+Quand tu as deux propriétés vraies « à partir de $N_1$ » et « à partir de $N_2$ », les deux sont vraies à partir de $N=\max(N_1,N_2)$.
+</div>
+
+<h3>19.2. Toute suite convergente est bornée (Prop. 2.17)</h3>
+<div class="box intuit"><span class="t">L'idée</span>
+<p>À partir d'un rang $N$, la suite est dans la bande $]\ell-1,\ell+1[$ (on prend $\eps=1$). Avant ce rang, il n'y a qu'un <b>nombre fini</b> de termes $u_0,\ldots,u_{N-1}$, et un nombre fini de nombres est toujours borné (on prend le max de leurs valeurs absolues).</p>
+</div>
+<div class="box demo"><span class="t">Rédaction</span>
+<p>Avec $\eps=1$ : il existe $N$ tel que $\forall n\geq N,\ |u_n-\ell|\lt1$, donc $|u_n|\leq|u_n-\ell|+|\ell|\lt1+|\ell|$.<br>
+Posons $M=\max(|u_0|,|u_1|,\ldots,|u_{N-1}|,\ 1+|\ell|)$ (max d'un ensemble fini, existe).<br>
+Alors pour tout $n$ : si $n\lt N$, $|u_n|\leq M$ ; si $n\geq N$, $|u_n|\lt1+|\ell|\leq M$. Donc $(u_n)$ est bornée. ∎</p>
+</div>
+<div class="piege"><span class="t">Piège : la réciproque est FAUSSE</span>
+Bornée ⇏ convergente. Contre-exemple : $((-1)^n)$ est bornée mais diverge.
+</div>
+<p><b>Remarque 2.18 :</b> une suite bornée à partir d'un certain rang est bornée tout court (même argument : il n'y a qu'un nombre fini de termes avant).</p>
+
+<h3>19.3. Bornée × tend vers 0 = tend vers 0 (Prop. 2.19) — <span style="color:#c62f2f">TRÈS utilisée</span></h3>
+<div class="box thm"><span class="t">Proposition 2.19</span>
+Si $(u_n)$ est bornée et $v_n\to0$, alors $u_nv_n\to0$.
+</div>
+<div class="box demo"><span class="t">Rédaction</span>
+<p>Soit $\eps>0$. $(u_n)$ bornée : il existe $M>0$ avec $\forall n,\ |u_n|\leq M$.<br>
+$v_n\to0$, appliquée avec $\frac\eps M>0$ : il existe $N$ avec $\forall n\geq N,\ |v_n|\lt\frac\eps M$.<br>
+Pour $n\geq N$ : $|u_nv_n|=|u_n|\,|v_n|\lt M\cdot\frac\eps M=\eps$. ∎</p>
+<p class="small">(On prend $M>0$ et pas $\geq0$ pour pouvoir diviser par $M$. Si une suite est bornée par $M$, elle l'est aussi par $M+1>0$.)</p>
+</div>
+<p><b>Exemple d'utilisation :</b> $\frac{\sin n}n\to0$ car $(\sin n)$ est bornée par 1 et $\frac1n\to0$. $\frac{(-1)^n}{n}\to0$ pareil.</p>
+
+<h3>19.4. Limite non nulle et signe (Prop. 2.20)</h3>
+<div class="box thm"><span class="t">Proposition 2.20</span>
+Si $u_n\to\ell>0$, alors $u_n>0$ à partir d'un certain rang. Si $\ell\lt0$, $u_n\lt0$ APCR. Dans les deux cas $u_n\neq0$ APCR.
+</div>
+<div class="box demo"><span class="t">Démonstration</span>
+<p>On prend $\eps=\frac{|\ell|}2$. APCR, $u_n\in]\ell-\frac{|\ell|}2,\ell+\frac{|\ell|}2[$. Si $\ell>0$, c'est $]\frac\ell2,\frac{3\ell}2[$, qui est entièrement $>0$. Si $\ell\lt0$, c'est $]\frac{3\ell}2,\frac\ell2[$, entièrement $\lt0$. ∎</p>
+<p><b>Pourquoi $\frac{|\ell|}2$ ?</b> Il faut une bande autour de $\ell$ qui ne touche pas 0 : n'importe quel rayon $\lt|\ell|$ marche, la moitié est un choix simple.</p>
+</div>
+<div class="piege"><span class="t">Piège</span>
+Si $u_n>0$ pour tout $n$ et $u_n\to\ell$, on a seulement $\ell\geq0$ (pas $\ell>0$) : $\frac1n>0$ mais $\frac1n\to0$. Encore l'inégalité stricte qui se perd à la limite !
+</div>
+
+<!-- ================================================================== -->
+<h2 id="infini">20. Limite infinie <span class="small">(p. 34–36)</span></h2>
+
+<div class="box def"><span class="t">Définition 2.21 — PAR CŒUR</span>
+$$u_n\to+\infty\iff\forall A>0,\ \exists N\in\N,\ \forall n\geq N,\ u_n>A.$$
+« Quel que soit le seuil $A$ (même énorme), la suite finit par le dépasser et reste au-dessus. »
+<br><br>
+<b>Définition 2.24 :</b> $u_n\to-\infty\iff\forall A\lt0,\ \exists N\in\N,\ \forall n\geq N,\ u_n\lt A.$
+</div>
+
+<h3>Exemple 2.22 — $\sqrt n\to+\infty$</h3>
+<div class="box demo"><span class="t">Brouillon puis rédaction</span>
+<p><i>Brouillon :</i> $\sqrt n>A\iff n>A^2$. Donc $N=E(A^2)+1$.</p>
+<p><i>Rédaction :</i> Soit $A>0$. Posons $N=E(A^2)+1>A^2$. Pour $n\geq N$ : $\sqrt n\geq\sqrt N>\sqrt{A^2}=A$. ∎</p>
+</div>
+
+<h3>Exemple 2.23 — si $u_n\to+\infty$ alors $\ln(u_n)\to+\infty$</h3>
+<div class="box demo"><span class="t">Rédaction</span>
+<p><b>1. $\ln(u_n)$ est défini APCR.</b> On applique la définition avec un $A$ quelconque, par ex. $A=1$ : il existe $n_0$ tel que $\forall n\geq n_0,\ u_n>1>0$.</p>
+<p><b>2. Limite.</b> Soit $A>0$. <i>Brouillon :</i> $\ln(u_n)>A\iff u_n>e^A$. On applique donc l'hypothèse <b>avec $e^A$</b> (qui est bien $>0$) : il existe $N$ tel que $\forall n\geq N,\ u_n>e^A$. Alors (ln croissante) $\ln(u_n)>A$. ∎</p>
+</div>
+
+<details><summary>Exercice 2.2 — voir la correction</summary>
+<p><b>1. $\sqrt n-5\to+\infty$.</b> Soit $A>0$, $N=E((A+5)^2)+1$. Pour $n\geq N$ : $\sqrt n\geq\sqrt N>A+5$, donc $\sqrt n-5>A$.</p>
+<p><b>2. $\frac{n^2+1}n\to+\infty$.</b> $\frac{n^2+1}n=n+\frac1n>n$. Soit $A>0$, $N=E(A)+1>A$. Pour $n\geq N$ : $\frac{n^2+1}n>n\geq N>A$.</p>
+<p><b>3. $e^{u_n^2}\to+\infty$ si $u_n\to+\infty$.</b> On sait $e^t\geq1+t>t$. Soit $A>0$. Avec l'hypothèse appliquée à $\sqrt A$ : $\exists N,\ \forall n\geq N,\ u_n>\sqrt A>0$, donc $u_n^2>A$, donc $e^{u_n^2}>u_n^2>A$.</p>
+<p><b>4. $u_n>0$, $u_n\to0$ ⇒ $\frac1{u_n}\to+\infty$.</b> Soit $A>0$. Hypothèse avec $\eps=\frac1A$ : $\exists N,\ \forall n\geq N,\ |u_n|\lt\frac1A$, donc $0\lt u_n\lt\frac1A$, donc $\frac1{u_n}>A$.</p>
+</details>
+
+<div class="piege"><span class="t">Piège : « diverger » ≠ « tendre vers l'infini »</span>
+Diverger = ne pas converger vers un réel. $((-1)^n)$ diverge mais ne tend ni vers $+\infty$ ni vers $-\infty$. Tendre vers $\pm\infty$ est <b>un cas particulier</b> de divergence.
+</div>
+
+<!-- ================================================================== -->
+<h2 id="fiche">21. Fiche « PAR CŒUR »</h2>
+<p>À savoir réciter <b>exactement</b>, avec les quantificateurs dans le bon ordre. Recopie-la à la main plusieurs fois.</p>
+<table>
+<tr><th>Notion</th><th>Écriture exacte</th></tr>
+<tr><td>$M$ majorant de $A$</td><td>$\forall x\in A,\ x\leq M$</td></tr>
+<tr><td>$A$ majorée</td><td>$\exists M\in\R,\ \forall x\in A,\ x\leq M$</td></tr>
+<tr><td>$A$ non majorée</td><td>$\forall M\in\R,\ \exists x\in A,\ x>M$</td></tr>
+<tr><td>$A$ bornée</td><td>$\exists M\geq0,\ \forall x\in A,\ |x|\leq M$</td></tr>
+<tr><td>$M=\max A$</td><td>$M\in A$ et $\forall x\in A,\ x\leq M$</td></tr>
+<tr><td>$M=\sup A$ (déf.)</td><td>$M$ majorant, et tout majorant $S$ vérifie $S\geq M$</td></tr>
+<tr><td>$M=\sup A$ (caract.)</td><td>$M$ majorant et $\forall\eps>0,\ \exists x\in A,\ x>M-\eps$</td></tr>
+<tr><td>$m=\inf A$ (caract.)</td><td>$m$ minorant et $\forall\eps>0,\ \exists x\in A,\ x\lt m+\eps$</td></tr>
+<tr><td>Existence du sup</td><td>Toute partie <b>non vide</b> et <b>majorée</b> de $\R$ admet une borne sup</td></tr>
+<tr><td>Max ⟺ sup</td><td>($A$ non vide majorée) $A$ a un max $\iff\sup A\in A$, et alors $\max A=\sup A$</td></tr>
+<tr><td>Archimède</td><td>$\forall a>0,\ \forall b>0,\ \exists n\in\N^\star,\ na>b$ ; en particulier $\forall\eps>0,\ \exists n\geq1,\ \frac1n\lt\eps$</td></tr>
+<tr><td>Partie entière</td><td>$E(x)\in\Z$ et $E(x)\leq x\lt E(x)+1$ ; donc $x-1\lt E(x)\leq x$</td></tr>
+<tr><td>Intervalle</td><td>$\forall x,y\in I,\ \forall z,\ x\leq z\leq y\Rightarrow z\in I$</td></tr>
+<tr><td>$x$ adhérent à $D$</td><td>$\forall\delta>0,\ D\cap]x-\delta,x+\delta[\neq\emptyset$</td></tr>
+<tr><td>$U$ dense dans $\R$</td><td>$\forall a\lt b,\ U\cap]a,b[\neq\emptyset$</td></tr>
+<tr><td>Densité</td><td>$\Q$ et $\R\setminus\Q$ sont denses dans $\R$</td></tr>
+<tr><td>Inégalités triangulaires</td><td>$|x+y|\leq|x|+|y|$ ; $\big||x|-|y|\big|\leq|x-y|$</td></tr>
+<tr><td>Croissante</td><td>$\forall n,\ u_{n+1}\geq u_n$</td></tr>
+<tr><td>$u_n\to\ell$</td><td>$\forall\eps>0,\ \exists N\in\N,\ \forall n\geq N,\ |u_n-\ell|\lt\eps$</td></tr>
+<tr><td>$u_n\not\to\ell$</td><td>$\exists\eps>0,\ \forall N\in\N,\ \exists n\geq N,\ |u_n-\ell|\geq\eps$</td></tr>
+<tr><td>$u_n\to+\infty$</td><td>$\forall A>0,\ \exists N\in\N,\ \forall n\geq N,\ u_n>A$</td></tr>
+<tr><td>Propriétés</td><td>Limite unique ; convergente ⇒ bornée ; bornée × (→0) → 0 ; $\ell>0$ ⇒ $u_n>0$ APCR</td></tr>
+</table>
+
+<p><b>Démonstrations à savoir refaire seul :</b> √2 irrationnel · inégalité triangulaire · unicité du max / du sup · $[0,1[$ n'a pas de max · caractérisation ε du sup (les 2 sens) · partie entière (unicité + existence) · densité de $\Q$ · densité de $\R\setminus\Q$ · $\frac1n\to0$ · unicité de la limite · convergente ⇒ bornée · bornée × (→0) · $((-1)^n)$ diverge.</p>
+
+<!-- ================================================================== -->
+<h2 id="pieges">22. Les 25 pièges classiques</h2>
+<ol>
+<li>Parler de « <b>le</b> majorant » : il y en a une infinité.</li>
+<li>Croire qu'un majorant est dans l'ensemble.</li>
+<li>Écrire $\max A$ sans avoir prouvé qu'il existe.</li>
+<li>Confondre sup et max : $\sup[0,1[=1$ mais pas de max.</li>
+<li>Utiliser le théorème d'existence du sup sans vérifier <b>non vide</b> ET <b>majorée</b>.</li>
+<li>Croire que l'existence du sup donne sa valeur.</li>
+<li>« Tous les éléments $\lt5$ ⇒ $\sup\lt5$ » : FAUX, seulement $\sup\leq5$.</li>
+<li>« $u_n>0$ pour tout $n$ ⇒ $\lim u_n>0$ » : FAUX, seulement $\geq0$.</li>
+<li>« Un plus grand élément est l'unique majorant » : FAUX (c'est l'unique majorant <b>qui appartient à $A$</b>).</li>
+<li>$E(-x)=-E(x)$ : FAUX. $E(-2{,}5)=-3$.</li>
+<li>Oublier que $E(x)$ est un entier relatif (peut être négatif).</li>
+<li>Inverser l'ordre des quantificateurs ($\exists N,\ \forall\eps$ ≠ $\forall\eps,\ \exists N$).</li>
+<li>Faire dépendre $N$ de $n$.</li>
+<li>Prendre $N=\frac1\eps$ (pas entier) au lieu de $E(\frac1\eps)+1$.</li>
+<li>Oublier « Soit $\eps>0$ » au début : sans ça la preuve n'a pas de sens.</li>
+<li>Écrire $\lim u_n$ avant d'avoir prouvé la convergence.</li>
+<li>Nier « $P\Rightarrow Q$ » en « $P\Rightarrow$ non $Q$ » (c'est « $P$ et non $Q$ »).</li>
+<li>Soustraire ou multiplier des inégalités sans précaution (signes !).</li>
+<li>Multiplier une inégalité par un nombre négatif sans changer le sens.</li>
+<li>$|x-y|\leq|x|-|y|$ : FAUX.</li>
+<li>Dans la caractérisation du sup, proposer un élément « $x=M-\frac\eps2$ » sans vérifier qu'il est <b>dans $A$</b> (cf. ex. 1.32 avec $\eps\geq3$).</li>
+<li>Croire que segments emboîtés marche avec des intervalles ouverts.</li>
+<li>Bornée ⇒ convergente : FAUX ($(-1)^n$).</li>
+<li>Diverge ⇒ tend vers $\pm\infty$ : FAUX ($(-1)^n$).</li>
+<li>« La suite $u_n$ » au lieu de « la suite $(u_n)$ ».</li>
+</ol>
+
+<!-- ================================================================== -->
+<h2 id="methodes">23. Méthodes types pour le partiel</h2>
+
+<h3>Type 1 : « Étudier » un ensemble (majoré ? minoré ? sup ? inf ? max ? min ?)</h3>
+<div class="box coeur"><span class="t">Plan de bataille</span>
+<ol>
+<li><b>Au brouillon :</b> calcule les premiers éléments, dessine-les sur une droite. Devine sup, inf, et s'ils sont atteints.</li>
+<li><b>Majoré ?</b> Si oui : donne un majorant et prouve-le (« Soit $x\in A$ … $x\leq M$ »). Si non : prouve « $\forall M,\ \exists x\in A,\ x>M$ ».</li>
+<li><b>Sup :</b> « $A$ est non vide (car …) et majorée, donc admet une borne sup. » Puis prouve la valeur avec la <b>caractérisation ε</b>.</li>
+<li><b>Max :</b> regarde si $\sup A\in A$. Si oui, $\max A=\sup A$. Si non, pas de max (Prop. 1.39).</li>
+<li>Pareil pour minoré / inf / min.</li>
+</ol>
+</div>
+
+<h3>Type 2 : Prouver une limite avec la définition</h3>
+<p>Voir la recette du §17. Toujours : brouillon (calcul de $|u_n-\ell|$, majoration simple, résolution en $n$), puis rédaction propre « Soit $\eps>0$. Posons $N=\ldots$. Soit $n\geq N$. Alors … $\lt\eps$. »</p>
+
+<h3>Type 3 : Prouver une limite « abstraite » (on connaît seulement $u_n\to\ell$)</h3>
+<p>Au brouillon, écris ce que tu veux ($|w_n-\ldots|\lt\eps$), et trouve quelle précision $\delta$ il faut sur $u_n$ ($\delta=\frac\eps7$, $\sqrt\eps$, $\min(1,\frac\eps2)$…). Puis applique l'hypothèse avec ce $\delta$.</p>
+
+<h3>Type 4 : Densité</h3>
+<p>Pour montrer que $U$ est dense : « Soient $a\lt b$ », puis exhibe un élément de $U$ dans $]a,b[$ (souvent en imitant la preuve pour $\Q$, ou en se ramenant à la densité de $\Q$). Pour montrer que $U$ n'est pas dense : trouve <b>un</b> intervalle $]a,b[$ sans élément de $U$.</p>
+
+<!-- ================================================================== -->
+<h2 id="partiel">24. Partiel du 9 novembre 2023 — corrigé et commenté</h2>
+<p class="small">Il est dans ton dossier (<code>2023/partiel_analyse1_2023.pdf</code>). Il porte exactement sur ces 35 pages. Fais-le d'abord seul en 2h, puis compare.</p>
+
+<h3>Exercice 1 (cours)</h3>
+<p>1. Caractérisation ε de la borne sup → §10. 2. Définition de la convergence → §17. <b>Ce sont 2 points gratuits si tu as appris la fiche.</b></p>
+
+<h3>Exercice 2 (vrai/faux)</h3>
+<table>
+<tr><th>#</th><th>Réponse</th><th>Pourquoi</th></tr>
+<tr><td>1</td><td class="ko">Faux</td><td>Le max est <i>un</i> majorant, mais tout nombre plus grand en est un aussi. Ex : $\max[0,1]=1$ mais 2 est aussi un majorant.</td></tr>
+<tr><td>2</td><td class="ko">Faux</td><td>L'inégalité stricte se perd : $A=]2,3]$, tous les $x>2$ mais $\inf A=2$.</td></tr>
+<tr><td>3</td><td class="ok">Vrai</td><td>$x\leq\sup A$ (car sup est un majorant) et $x\geq\sup A$ ⇒ $x=\sup A\in A$ ⇒ max existe (Prop. 1.39).</td></tr>
+<tr><td>4</td><td class="ko">Faux</td><td>$\Q$ est dense et $\R\setminus\Q$ est infini.</td></tr>
+<tr><td>5</td><td class="ko">Faux</td><td>Pour $n=0$, $\cos 0=1$, et $\cos\leq1$ : donc $\max=1$ existe.</td></tr>
+<tr><td>6</td><td class="ok">Vrai</td><td>$0\in[0,1[$ et $0\neq\frac1n$, donc $0$ est dans l'ensemble et le minore : $\min=0$.</td></tr>
+<tr><td>7</td><td class="ok">Vrai</td><td>Non vide ($0$ dedans) et majorée par $\sqrt2$ : théorème d'existence. (La sup vaut $\sqrt2$, qui est un réel ; on demande la sup dans $\R$.)</td></tr>
+<tr><td>8</td><td class="ko">Faux</td><td>$E(-0{,}5)=-1\neq0=-E(0{,}5)$.</td></tr>
+</table>
+
+<h3>Exercice 3 (étude d'ensembles)</h3>
+<details><summary>(a) $A=\{(-1)^nn+n,\ n\in\N\}$</summary>
+<p><b>Brouillon :</b> $n$ pair : $n+n=2n$ ; $n$ impair : $-n+n=0$. Donc $A=\{0\}\cup\{2n,\ n\text{ pair}\}=\{0,4,8,12,\ldots\}$.</p>
+<p><b>Minoré, min = inf = 0 :</b> tous les éléments sont $\geq0$ ($2n\geq0$ et $0\geq0$), et $0\in A$ ($n=0$). Donc $\min A=\inf A=0$.</p>
+<p><b>Non majoré</b> (donc pas de sup ni de max) : soit $M\in\R$. Par Archimède, il existe un entier $k$ avec $k>M/4$ (et $k\geq0$). Avec $n=2k$ (pair), $(-1)^nn+n=4k>M$ est dans $A$. Donc aucun $M$ n'est un majorant.</p>
+</details>
+<details><summary>(b) $B=\{x^4+x\sin x+1,\ x\in]0,1]\}$</summary>
+<p>Notons $f(x)=x^4+x\sin x+1$. Sur $]0,1]$ : $\sin x>0$ (car $0\lt x\leq1\lt\pi$), donc $x\sin x>0$ et $x^4>0$, d'où $f(x)>1$. Et $f$ est croissante sur $]0,1]$ ($x^4$ croissante, $x\sin x$ produit de deux fonctions positives croissantes sur $]0,1]$).</p>
+<p><b>Max = sup :</b> $f(x)\leq f(1)=2+\sin1$ pour tout $x\in]0,1]$, et $f(1)\in B$. Donc $\max B=\sup B=2+\sin 1$.</p>
+<p><b>Inf = 1 :</b> 1 est un minorant ($f(x)>1$). Soit $\eps>0$. Pour $x\in]0,1]$ : $x^4\leq x$ et $x\sin x\leq x$, donc $f(x)\leq1+2x$. Prenons $x=\min(1,\frac\eps3)\in]0,1]$ : $f(x)\leq1+\frac{2\eps}3\lt1+\eps$. Par la caractérisation, $\inf B=1$.</p>
+<p><b>Pas de min :</b> $\inf B=1\notin B$ car $f(x)>1$.</p>
+</details>
+<details><summary>(c) $C=\{(-1)^n+\frac1m,\ (n,m)\in\N\times\N^\star\}$</summary>
+<p><b>Brouillon :</b> $n$ pair : $1+\frac1m\in]1,2]$ ; $n$ impair : $-1+\frac1m\in]-1,0]$.</p>
+<p><b>Max = sup = 2 :</b> $(-1)^n\leq1$ et $\frac1m\leq1$ donc tout élément est $\leq2$ ; et $2\in C$ ($n=0,m=1$).</p>
+<p><b>Inf = −1 :</b> $(-1)^n\geq-1$ et $\frac1m>0$, donc tout élément est $>-1$ : $-1$ minorant. Soit $\eps>0$ : par Archimède il existe $m\geq1$ avec $\frac1m\lt\eps$ ; alors $x=(-1)^1+\frac1m\in C$ et $x\lt-1+\eps$. Donc $\inf C=-1$.</p>
+<p><b>Pas de min :</b> $-1\notin C$ (tous les éléments sont $>-1$).</p>
+</details>
+
+<h3>Exercice 4 (limites)</h3>
+<details><summary>(a) $u_n=\frac{3n+1+(-1)^n}{n}\to3$</summary>
+<p><b>Brouillon :</b> $u_n-3=\frac{1+(-1)^n}n$, et $|1+(-1)^n|\leq2$, donc $|u_n-3|\leq\frac2n$.</p>
+<p><b>Rédaction :</b> Soit $\eps>0$. Posons $N=E(\frac2\eps)+1$, donc $N\geq1$ et $N>\frac2\eps$. Soit $n\geq N$. Alors $|u_n-3|=\frac{|1+(-1)^n|}n\leq\frac2n\leq\frac2N\lt\eps$. Donc $u_n\to3$.</p>
+</details>
+<details><summary>(b) $v_n\to0$ ⇒ $w_n=v_n(\cos v_n+v_n)\to0$</summary>
+<p><b>Brouillon :</b> $|w_n|=|v_n|\,|\cos v_n+v_n|\leq|v_n|(1+|v_n|)$. Si $|v_n|\lt1$, alors $|w_n|\lt2|v_n|$. Donc il suffit que $|v_n|\lt1$ ET $|v_n|\lt\frac\eps2$, c'est-à-dire $|v_n|\lt\delta=\min(1,\frac\eps2)$.</p>
+<p><b>Rédaction :</b> Soit $\eps>0$, $\delta=\min(1,\frac\eps2)>0$. Comme $v_n\to0$, il existe $N$ tel que $\forall n\geq N,\ |v_n|\lt\delta$. Pour $n\geq N$ : $|w_n-0|\leq|v_n|(1+|v_n|)\lt\delta(1+1)=2\delta\leq\eps$. Donc $w_n\to0$.</p>
+<p class="small">L'astuce $\min(1,\ldots)$ est super classique : elle sert à contrôler un facteur parasite (ici $1+|v_n|$) en le bornant par 2.</p>
+</details>
+
+<h3>Exercice 5 (densité de $\{p+q\gamma\}$)</h3>
+<p>C'est un problème long qui utilise : inf d'une partie non vide minorée, caractérisation de l'inf, partie entière ($n=E(x/a)$ et $0\leq x-an\lt a$), et la définition de la densité. Fais-le une fois que tout le reste est solide ; le corrigé est dans <code>2023/partiel_corrige_analyse1_2023.pdf</code>. Les questions 4 et 5 (si on a des éléments $\alpha\in A$ arbitrairement petits et $>0$, alors $A$ est dense : on prend les multiples $k\alpha$, qui font des « pas » plus petits que $b-a$, exactement comme dans la preuve de la densité de $\Q$) sont à comprendre absolument.</p>
+
+<div class="box intuit"><span class="t">Plan de révision conseillé</span>
+<ol>
+<li><b>Jour 1 :</b> §0 à §6. Apprends la preuve de √2 et l'inégalité triangulaire.</li>
+<li><b>Jour 2 :</b> §7 à §9. Fais les exercices 1.3 et 1.4 sans regarder.</li>
+<li><b>Jour 3 :</b> §10 à §12 (le cœur du chapitre). Refais les preuves de la caractérisation ε.</li>
+<li><b>Jour 4 :</b> §13 à §15. Refais la densité de $\Q$ de tête.</li>
+<li><b>Jour 5 :</b> §16 à §20. Fais l'exercice 2.1 et 2.2.</li>
+<li><b>Jour 6 :</b> Partiel 2023 en conditions réelles (2h). Puis les autres annales (2022, 2021…) de ton dossier.</li>
+</ol>
+<p>Tous les jours : 10 minutes de fiche « par cœur » (§21).</p>
+</div>
+
+<p class="small" style="margin-top:3em">Document rédigé à partir du poly d'Analyse 1 (Département MIDO, version du 20 septembre 2024), pages 1 à 35 (pagination du poly), et du partiel de novembre 2023.</p>
+</main>
+</body>
+</html>
