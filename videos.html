@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Analyse 1 — Vidéos YouTube</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Analyse 1">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#1b3a6b">
+<script>if('serviceWorker' in navigator){addEventListener('load',function(){navigator.serviceWorker.register('sw.js')})}</script><style>
+  body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;margin:0;background:#f6f5f1;color:#1d2330}
+  main{max-width:640px;margin:0 auto;padding:18px 14px 60px}
+  h1{font-size:1.35rem;margin:.2em 0}
+  .sub{color:#5b6475;font-size:.92rem;margin:.2em 0 1em}
+  .bar{background:#e4e1d8;border-radius:99px;height:10px;overflow:hidden;margin:6px 0 4px}
+  .bar>div{background:#1f8a4c;height:100%;width:0;transition:width .3s}
+  .count{font-size:.85rem;color:#5b6475}
+  h2{font-size:1.05rem;margin:1.6em 0 .5em;color:#1b3a6b}
+  .item{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid #e4e1d8;border-radius:12px;padding:10px 12px;margin:8px 0}
+  .item.done{opacity:.55}
+  .item input{width:22px;height:22px;flex:none;accent-color:#1f8a4c}
+  .item a{flex:1;color:#1d2330;text-decoration:none;font-size:.98rem;line-height:1.35}
+  .item a .tag{display:block;font-size:.8rem;color:#5b6475;margin-top:2px}
+  .star{color:#c79100;font-weight:700}
+  .tip{background:#fffbea;border-left:5px solid #c79100;border-radius:8px;padding:10px 12px;font-size:.92rem;margin-top:1.5em}
+  .topnav{position:sticky;top:0;z-index:10;display:flex;gap:6px;justify-content:center;padding:8px 10px;background:rgba(27,58,107,.97)}
+  .topnav a{color:#fff;text-decoration:none;font-weight:600;font-size:.92rem;padding:6px 12px;border-radius:99px;background:rgba(255,255,255,.12)}
+  .topnav a.on{background:#ffd666;color:#1b3a6b}
+</style></head>
+<body>
+<nav class="topnav"><a href="./">📘 Cours</a><a class="on" href="videos.html">🎬 Vidéos</a></nav>
+<main>
+<h1>🎬 Analyse 1 — Vidéos pour réviser</h1>
+<p class="sub">Dans l'ordre du cours (poly p. 1 à 35). Touche un titre pour ouvrir YouTube, coche la case quand c'est vu. ⭐ = Exo7, à voir en priorité.</p>
+<div class="bar"><div id="prog"></div></div>
+<div class="count" id="count"></div>
+
+<div id="list"></div>
+
+<div class="tip"><b>Méthode :</b> regarde les ⭐ d'un thème → relis la section du cours → fais les exercices en mettant pause avant la solution. Pour les définitions exactes, fie-toi au poly, pas aux vidéos.</div>
+</main>
+<script>
+const S=[
+["0. Logique : ∀, ∃, négation",[
+["SEx4lKVrWzM","Les quantificateurs et la négation d'une proposition","la base"],
+["EpaqW7QlaCA","Les quantificateurs logiques (explication)",""],
+["BarDPiPP_EU","Quantificateur, négation, implication (MPSI)",""],
+["NJOzi7279GI","Permuter « il existe » et « quel que soit »","le piège n°1"],
+["f0np2Oj2GtI","Négation avec ∀ et ∃","exercices"],
+["gl1lRhOUemI","Négation et valeur de vérité de 5 propositions","exercices"]]],
+["1. Rationnels, √2 irrationnel",[
+["NCWWVven9Cs","⭐ Exo7 – Nombres réels partie 1 : rationnels","décimaux + √2"],
+["7AJZSl_BAWU","Pourquoi √2 est-il irrationnel ?",""],
+["xuijxhzmDgc","Démontrer que √2 est irrationnel",""],
+["1d2LZ6zGdjg","Exo7 – Exercice 1 (Propriétés de R)","√2, densité des irrationnels"]]],
+["2. Valeur absolue, inégalité triangulaire",[
+["t-i0N-WLvMk","Valeur absolue (rappel + démonstration)",""],
+["xOCcQz6MSYw","Inégalité triangulaire et valeur absolue",""],
+["1ap6DLPedhM","Exercice corrigé inégalité triangulaire","version inversée incluse"]]],
+["3. Majorant, max, borne sup / inf (cœur du partiel)",[
+["sBnmcj3jTFY","⭐ Exo7 – Nombres réels partie 4 : borne supérieure",""],
+["XyVCic0YRUc","Borne sup, borne inf – définitions & exemples",""],
+["hbRqyMLeKak","Majorant, minorant, sup, inf, max, min",""],
+["PtB731EQ23U","Analyse 1 : majorants, minorants, bornes (cours)",""],
+["vIlZA_uuWfE","Caractérisation de la borne sup/inf + Archimède","la caractérisation ε"],
+["P4ovnPBvMNo","⭐ Exo7 – Exercice 7 (Propriétés de R)","étudier un ensemble, type partiel"],
+["334t0HSkpv0","Exercice classique corrigé sup / inf",""],
+["rlSEJo9F4NI","Borne sup et inf – exercices corrigés",""],
+["x9ucOdQFR6g","Analyse 1 : sup et inf – exercices corrigés",""]]],
+["4. Partie entière",[
+["wKOmLt4_8Mw","Analyse 1 : partie entière – définition et propriétés",""],
+["TiCP-djxOgc","Nombres réels partie 4 : la partie entière (math sup)",""],
+["1J2h3P7yQkk","Analyse 1 : partie entière – exercice corrigé",""],
+["DJNMuwA-0Ts","Exo7 – Exercice 10 (Propriétés de R)","partie entière + densité"]]],
+["5. Intervalles et densité",[
+["rYOyqI9YLgA","⭐ Exo7 – Nombres réels partie 3 : densité","ℚ et irrationnels denses"]]],
+["6. Suites : limite avec ε",[
+["eKWRb_wLczo","⭐ Exo7 – Suites partie 1 : définitions",""],
+["253AEiNBvGw","⭐ Exo7 – Suites partie 2 : limite","finie, infinie, preuves"],
+["oUBnUtePG4E","Limites au sens « epsilon » – explication graphique","si la déf ne rentre pas"],
+["CtuiBmpjxyU","Convergence des suites : formulation avec ε",""],
+["l8x5aVXOqpU","Maths prépa : la limite rigoureusement avec les ε",""],
+["_EYNp-FVn2Y","Tout comprendre sur la convergence des suites",""],
+["KvQV7GLeE4A","Démontrer qu'une suite tend vers L avec ε","rédaction"],
+["BUrx_kgZOu8","Démontrer la limite d'une suite avec la définition","rédaction"]]],
+["7. Propriétés des limites, limite infinie",[
+["Fw9vKV75fMI","Unicité de la limite",""],
+["FAwQC_BQWkU","Toute suite convergente est bornée",""],
+["-h_k60ZC37w","Démontrer qu'une suite tend vers l'infini avec A",""]]]
+];
+let seen={};try{seen=JSON.parse(localStorage.getItem("vus-a1")||"{}")}catch(e){}
+const L=document.getElementById("list");let total=0;
+for(const [titre,vids] of S){
+  const h=document.createElement("h2");h.textContent=titre;L.appendChild(h);
+  for(const [id,t,tag] of vids){total++;
+    const d=document.createElement("div");d.className="item"+(seen[id]?" done":"");
+    const c=document.createElement("input");c.type="checkbox";c.checked=!!seen[id];
+    c.onchange=()=>{seen[id]=c.checked;d.classList.toggle("done",c.checked);try{localStorage.setItem("vus-a1",JSON.stringify(seen))}catch(e){}upd()};
+    const a=document.createElement("a");a.href="https://www.youtube.com/watch?v="+id;a.target="_blank";a.rel="noopener";
+    a.textContent=t;if(tag){const s=document.createElement("span");s.className="tag";s.textContent=tag;a.appendChild(s)}
+    d.append(c,a);L.appendChild(d)}}
+function upd(){const n=Object.values(seen).filter(Boolean).length;
+  document.getElementById("prog").style.width=(100*n/total)+"%";
+  document.getElementById("count").textContent=n+" / "+total+" vidéos vues"}
+upd();
+</script>
+</body>
+</html>
